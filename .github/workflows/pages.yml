@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - codex/human-visual-refresh
   workflow_dispatch:
 
 permissions:
@@ -21,18 +22,45 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          path: main-deck
+
+      - name: Check out visual refresh presentation
+        uses: actions/checkout@v4
+        with:
+          ref: codex/human-visual-refresh
+          path: human-visual-refresh
 
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: |
+            main-deck/package-lock.json
+            human-visual-refresh/package-lock.json
 
-      - name: Install dependencies
+      - name: Install main presentation dependencies
         run: npm ci
+        working-directory: main-deck
 
-      - name: Build static site
+      - name: Build main presentation
         run: npm run build
+        working-directory: main-deck
+
+      - name: Install visual refresh dependencies
+        run: npm ci
+        working-directory: human-visual-refresh
+
+      - name: Build visual refresh presentation
+        run: npm run build
+        working-directory: human-visual-refresh
+
+      - name: Compose Pages site
+        run: |
+          mkdir -p site/human-visual-refresh
+          cp -R main-deck/dist/. site/
+          cp -R human-visual-refresh/dist/. site/human-visual-refresh/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -40,7 +68,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: site
 
   deploy:
     environment:
