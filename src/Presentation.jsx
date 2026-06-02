@@ -7,6 +7,7 @@ import 'reveal.js/reveal.css';
 const SOURCE_LINKS = {
   git: 'https://git-scm.com/docs/git-worktree',
   vscode: 'https://code.visualstudio.com/docs/sourcecontrol/branches-worktrees',
+  intellij: 'https://www.jetbrains.com/help/idea/use-git-worktrees.html',
   agents: 'https://code.visualstudio.com/docs/copilot/agents/background-agents',
 };
 
@@ -123,10 +124,10 @@ function BranchNetwork() {
 }
 
 const INTERRUPTION_STEPS = [
-  ['01', 'Stash', 'Almost finished...'],
-  ['02', 'Checkout', 'Urgent fix, naturally.'],
-  ['03', 'Rebuild', 'Dependencies say hello.'],
-  ['04', 'Return', 'Now, where was I?'],
+  ['01', 'Pause', 'You were on a roll.'],
+  ['02', 'Switch', 'A new branch takes over the desk.'],
+  ['03', 'Rebuild', 'Your tools reset the mood.'],
+  ['04', 'Recover', 'Then you find your way back.'],
 ];
 
 function InterruptionFlow() {
@@ -206,60 +207,65 @@ function Chevron() {
   return <span className="chevron" aria-hidden="true">›</span>;
 }
 
-function SourceControlPanel() {
+const EDITOR_OPTIONS = [
+  {
+    name: 'VS Code',
+    entry: 'Source Control',
+    detail: 'Create worktree',
+    note: 'Open another window when the new task lands.',
+    tone: 'navy',
+    badge: 'VS',
+  },
+  {
+    name: 'IntelliJ',
+    entry: 'Git Branches',
+    detail: 'Use worktrees',
+    note: 'Same Git idea, just surfaced in a different place.',
+    tone: 'blue',
+    badge: 'IJ',
+  },
+  {
+    name: 'Terminal',
+    entry: 'git worktree',
+    detail: 'add • list • remove',
+    note: 'Perfect when you want the primitive with no extra UI.',
+    tone: 'accent',
+    badge: '>_',
+  },
+];
+
+function EditorShowcase() {
   return (
-    <div className="vscode-window">
-      <div className="vscode-titlebar">
-        <span className="traffic-lights"><i /><i /><i /></span>
-        <strong>your-repo</strong>
-        <span>Visual Studio Code</span>
-      </div>
-      <div className="vscode-content">
-        <div className="activity-bar">
-          <span className="activity-icon">⌕</span>
-          <span className="activity-icon activity-icon--active">⑂</span>
-          <span className="activity-icon">▷</span>
-          <span className="activity-icon">⌁</span>
+    <div className="editor-showcase">
+      <div className="editor-spark">
+        <div className="spark-line">
+          <span className="spark-dot" />
+          <span className="spark-track" />
+          <span className="spark-dot spark-dot--end" />
         </div>
-        <div className="source-panel">
-          <div className="panel-heading">
-            <strong>SOURCE CONTROL</strong>
-            <span>•••</span>
-          </div>
-          <div className="repo-row">
-            <Chevron />
-            <strong>your-repo</strong>
-            <span className="branch-chip">feature</span>
-          </div>
-          <div className="panel-section">
-            <Chevron />
-            <strong>CHANGES</strong>
-            <span className="count-pill">2</span>
-          </div>
-          <div className="file-row"><span>M</span> src/payment.ts</div>
-          <div className="file-row"><span>M</span> src/checkout.tsx</div>
-          <Fragment asChild animation="fade-up" index={1}>
-            <div className="worktrees-menu">
-              <div className="menu-title"><span>⑂</span> Worktrees</div>
-              <div className="menu-item menu-item--active">＋ Create Worktree...</div>
-              <div className="menu-item">↗ Open Worktree</div>
-              <div className="menu-item">⇄ Compare with Worktree</div>
+        <strong>Same habit. Different doorway.</strong>
+        <p>Start in the editor you already trust, then let Git keep the work separated.</p>
+      </div>
+      <div className="editor-cards">
+        {EDITOR_OPTIONS.map((option, index) => (
+          <Fragment key={option.name} asChild animation="fade-up" index={index + 1}>
+            <div className={`editor-card editor-card--${option.tone}`}>
+              <div className="editor-card-topline">
+                <span className="editor-badge">{option.badge}</span>
+                <span>{option.name}</span>
+              </div>
+              <strong>{option.entry}</strong>
+              <div className="editor-detail">{option.detail}</div>
+              <p>{option.note}</p>
             </div>
           </Fragment>
-        </div>
-        <div className="editor-panel">
-          <div className="editor-tab">payment.ts <span>×</span></div>
-          <div className="editor-lines">
-            <span><i>1</i><b>export</b> async function submitPayment() &#123;</span>
-            <span><i>2</i>&nbsp;&nbsp;<b>const</b> request = await buildRequest();</span>
-            <span><i>3</i>&nbsp;&nbsp;<b>return</b> gateway.submit(request);</span>
-            <span><i>4</i>&#125;</span>
+        ))}
+        <Fragment asChild animation="fade-left" index={4}>
+          <div className="editor-card editor-card--ghost">
+            <span className="editor-kicker">What matters</span>
+            <strong>New branch. New folder. Old focus stays put.</strong>
           </div>
-          <div className="editor-callout">
-            <span className="checkmark">✓</span>
-            Same Git primitive. Less ceremony.
-          </div>
-        </div>
+        </Fragment>
       </div>
     </div>
   );
@@ -274,14 +280,14 @@ function DemoCue() {
         <span className="demo-line" />
         <span className="demo-dot demo-dot--end" />
       </div>
-      <h2>Give the next task<br />its own lane.</h2>
-      <p>Create a worktree. Open it. Let Copilot Chat work there.</p>
+      <h2>Protect your flow.<br />Open a fresh lane.</h2>
+      <p>Create a worktree, open it in your editor, and make one tiny change there.</p>
       <div className="demo-checklist">
-        <span><b>01</b> Source Control</span>
+        <span><b>01</b> Create</span>
         <Chevron />
-        <span><b>02</b> Create Worktree</span>
+        <span><b>02</b> Open</span>
         <Chevron />
-        <span><b>03</b> Open + Chat</span>
+        <span><b>03</b> Change</span>
       </div>
     </div>
   );
@@ -290,23 +296,23 @@ function DemoCue() {
 const LANE_DATA = [
   {
     role: 'YOU',
-    title: 'Current feature',
+    title: 'Deep focus',
     branch: 'feature/payment-flow',
     path: './your-repo',
-    status: 'Focused',
+    status: 'Still in flow',
     tone: 'navy',
   },
   {
-    role: 'YOU',
-    title: 'Urgent fix',
+    role: 'TEAMMATE',
+    title: 'Quick fix',
     branch: 'hotfix/receipt',
     path: '../receipt-fix',
-    status: 'Isolated',
+    status: 'Ready to review',
     tone: 'blue',
   },
   {
     role: 'AGENT',
-    title: 'Background task',
+    title: 'Background draft',
     branch: 'agent/add-tests',
     path: '../agent-add-tests',
     status: 'Review when ready',
@@ -403,8 +409,8 @@ export function Presentation() {
         <SlideFrame
           number={1}
           eyebrow="GIT WORKTREES"
-          title={<>One repo.<br /><span className="title-accent">More room to work.</span></>}
-          lead="Keep your current task exactly where it is. Give the next task a workspace of its own."
+          title={<>One repo.<br /><span className="title-accent">More breathing room.</span></>}
+          lead="Stay in the zone on one task while the next task gets a workspace of its own."
           className="intro-slide"
         >
           <BranchNetwork />
@@ -413,7 +419,7 @@ export function Presentation() {
           <strong>0:00-0:20</strong><br />
           We have all had the moment: you are halfway through one task and another one arrives.
           A worktree lets that second task have its own workspace without disturbing the first.
-          Today: the Git primitive, the VS Code workflow, and why this matters even more with agents.
+          Today: the Git primitive, a few editor entry points, and why this matters even more with agents.
         </aside>
       </Slide>
 
@@ -421,14 +427,14 @@ export function Presentation() {
         <SlideFrame
           number={2}
           eyebrow="THE PROBLEM"
-          title="The branch is cheap. The interruption is not."
-          lead="One working directory means every urgent task borrows the desk you were already using."
+          title="You were in the zone. Then the ping arrived."
+          lead="The branch is cheap. Losing your flow in one crowded working directory is the expensive part."
         >
           <InterruptionFlow />
           <Fragment asChild animation="fade-up" index={5}>
             <div className="clone-note">
-              <strong>Could we clone again?</strong>
-              <span>Yes. It works. It also adds another repo to manage.</span>
+              <strong>You can clone again.</strong>
+              <span>It works, but now you are carrying another full repo around too.</span>
             </div>
           </Fragment>
         </SlideFrame>
@@ -444,15 +450,15 @@ export function Presentation() {
         <SlideFrame
           number={3}
           eyebrow="THE MENTAL MODEL"
-          title="A worktree gives each task its own workspace."
-          lead="Separate working directories and branches. Shared repository data underneath."
+          title="Same repo. Separate desks."
+          lead="Each task gets its own files and branch while Git keeps the shared history underneath."
         >
           <div className="model-grid">
             <WorktreeMap />
             <div className="model-explanation">
               <div className="model-point">
                 <span>01</span>
-                <p><strong>Share the repository.</strong><br />Reuse Git objects and refs.</p>
+                <p><strong>Share the repo core.</strong><br />Reuse objects and refs.</p>
               </div>
               <div className="model-point">
                 <span>02</span>
@@ -466,7 +472,7 @@ git worktree remove ../hotfix`}
             </div>
           </div>
           <p className="fine-print">
-            Guardrail: a branch generally cannot be checked out in multiple worktrees at the same time.
+            Usually one active branch per worktree keeps everything predictable.
           </p>
         </SlideFrame>
         <aside className="notes">
@@ -482,42 +488,18 @@ git worktree remove ../hotfix`}
         <SlideFrame
           number={4}
           eyebrow="THE WORKFLOW"
-          title="VS Code makes the workflow approachable."
-          lead="The Source Control view exposes worktrees while the familiar Git commands stay underneath."
+          title="Pick your editor. Keep the habit."
+          lead="VS Code, IntelliJ, or the terminal all ride on the same Git primitive."
         >
-          <div className="vscode-layout">
-            <SourceControlPanel />
-            <div className="vscode-actions">
-              <Fragment asChild animation="fade-left" index={2}>
-                <div className="action-card">
-                  <span>01</span>
-                  <strong>Create</strong>
-                  <p>Choose a branch and folder.</p>
-                </div>
-              </Fragment>
-              <Fragment asChild animation="fade-left" index={3}>
-                <div className="action-card">
-                  <span>02</span>
-                  <strong>Open</strong>
-                  <p>Work in another window.</p>
-                </div>
-              </Fragment>
-              <Fragment asChild animation="fade-left" index={4}>
-                <div className="action-card">
-                  <span>03</span>
-                  <strong>Compare</strong>
-                  <p>Review before merging.</p>
-                </div>
-              </Fragment>
-            </div>
-          </div>
+          <EditorShowcase />
         </SlideFrame>
         <aside className="notes">
           <strong>1:40-2:15</strong><br />
-          VS Code now exposes worktrees from Source Control: create a worktree, open it in a new window,
-          compare changes, and migrate changes if needed. The UI makes the primitive more discoverable,
-          and the CLI remains available underneath.<br /><br />
-          Source: <a href={SOURCE_LINKS.vscode}>{SOURCE_LINKS.vscode}</a>
+          The friendly part is that you do not need one blessed tool here. VS Code exposes worktrees from
+          Source Control, IntelliJ surfaces them from its Git UI, and the CLI is still the same tiny set
+          of commands underneath.<br /><br />
+          Sources: <a href={SOURCE_LINKS.vscode}>{SOURCE_LINKS.vscode}</a><br />
+          <a href={SOURCE_LINKS.intellij}>{SOURCE_LINKS.intellij}</a>
         </aside>
       </Slide>
 
@@ -525,10 +507,10 @@ git worktree remove ../hotfix`}
         <DemoCue />
         <aside className="notes">
           <strong>2:15-3:45 - LIVE DEMO</strong><br />
-          1. In the current repo, open Source Control and choose Worktrees &gt; Create Worktree.<br />
+          1. In the current repo, open your editor's Git/worktree entry point and create a worktree.<br />
           2. Create a branch such as demo/copilot-note in a sibling folder.<br />
-          3. Open the new worktree in a second VS Code window.<br />
-          4. Ask Copilot Chat for a small focused change.<br />
+          3. Open the new worktree in a second window.<br />
+          4. Make one small focused change there.<br />
           5. Show the original window: its working files remain undisturbed.<br /><br />
           CLI fallback: git worktree add -b demo/copilot-note ../copilot-note main
         </aside>
@@ -538,16 +520,16 @@ git worktree remove ../hotfix`}
         <SlideFrame
           number={6}
           eyebrow="THE AGENT ERA"
-          title="Parallel work becomes a practical habit."
-          lead="Use worktrees for human context switching today. Use isolated workspaces for agent tasks as the workflow grows."
+          title="Humans and agents both like clear lanes."
+          lead="Separate workspaces make handoffs calmer, reviews cleaner, and parallel work easier to trust."
         >
           <ParallelLanes />
           <Fragment asChild animation="fade-up" index={4}>
             <div className="agent-note">
               <span className="agent-note-label">NEXT STEP</span>
               <p>
-                Copilot CLI background sessions in VS Code can create isolated worktrees automatically.
-                Review the result, then choose what to merge.
+                However the work starts, the review moment stays the same: inspect it, compare it, then
+                choose what to merge.
               </p>
             </div>
           </Fragment>
@@ -566,16 +548,16 @@ git worktree remove ../hotfix`}
         <SlideFrame
           number={7}
           eyebrow="THE TAKEAWAY"
-          title={<>Stop switching.<br /><span className="title-accent">Add a workspace.</span></>}
-          lead="One small Git primitive makes concurrent work easier to start, easier to review, and easier to reason about."
+          title={<>Protect the flow.<br /><span className="title-accent">Add a workspace.</span></>}
+          lead="One small Git primitive makes parallel work feel calmer, clearer, and easier to review."
           className="closing-slide"
         >
           <div className="takeaway-grid">
-            <Takeaway number="01" title="Preserve context" text="Leave your current task exactly where it is." />
-            <Takeaway number="02" title="Isolate work" text="Give each concurrent task its own lane." />
-            <Takeaway number="03" title="Review deliberately" text="Choose what to merge when the work is ready." />
+            <Takeaway number="01" title="Keep momentum" text="Leave the current task exactly where it is." />
+            <Takeaway number="02" title="Split work cleanly" text="Give the new task its own branch and folder." />
+            <Takeaway number="03" title="Merge on purpose" text="Review the result when the work is ready." />
           </div>
-          <CodeInset title="REMEMBER THESE THREE" className="closing-code">
+          <CodeInset title="THREE COMMANDS" className="closing-code">
             {`git worktree add
 git worktree list
 git worktree remove`}

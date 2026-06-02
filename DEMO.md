@@ -1,14 +1,14 @@
 # Live Demo Guide
 
-The deck reserves roughly 90 seconds for a VS Code demonstration after slide 4.
+The deck reserves roughly 90 seconds for an editor-based demonstration after slide 4.
 Keep the change small enough that the audience can see the workspace isolation,
 not watch code generation.
 
 ## Before Presenting
 
 1. Open a clean demo repository on a branch named `feature/payment-flow`.
-2. Ensure VS Code Source Control recognizes the repository.
-3. Confirm the Source Control worktree actions are available.
+2. Ensure your editor recognizes the repository and exposes Git/worktree actions.
+3. If you are using VS Code or IntelliJ, confirm the worktree entry point is visible.
 4. Prepare a small Copilot Chat prompt, such as:
 
    > Add a concise README section explaining how to run the local test command.
@@ -18,9 +18,9 @@ not watch code generation.
 
 ## Live Flow
 
-1. From VS Code Source Control, select `Worktrees > Create Worktree`.
+1. From your editor's Git/worktree entry point, create a new worktree.
 2. Create `demo/copilot-note` in a sibling directory.
-3. Open the new worktree in a second VS Code window.
+3. Open the new worktree in a second editor window.
 4. Ask Copilot Chat to make the prepared focused change.
 5. Show the changed file in the new window.
 6. Return briefly to the original window and show that its working files remain

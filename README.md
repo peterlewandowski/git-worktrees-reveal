@@ -30,7 +30,7 @@ folder can run under a GitHub Pages project subpath.
 - Click the theme control or press `D` to switch between light and dark mode.
 - Press `S` for the speaker view, timing guidance, and slide notes.
 - Press `F` for fullscreen.
-- Follow [DEMO.md](./DEMO.md) for the live VS Code segment and CLI fallback.
+- Follow [DEMO.md](./DEMO.md) for the live editor demo and CLI fallback.
 
 To open the deployed deck directly in dark mode, add `?theme=dark` before the
 slide hash:
@@ -43,6 +43,7 @@ https://example.github.io/repository-name/?theme=dark
 
 - [Git worktree documentation](https://git-scm.com/docs/git-worktree)
 - [VS Code Git branches and worktrees](https://code.visualstudio.com/docs/sourcecontrol/branches-worktrees)
+- [IntelliJ IDEA worktrees](https://www.jetbrains.com/help/idea/use-git-worktrees.html)
 - [VS Code Copilot CLI sessions](https://code.visualstudio.com/docs/copilot/agents/background-agents)
 - [Official reveal.js React wrapper](https://revealjs.com/react/)
 - [reveal.js speaker view](https://revealjs.com/speaker-view/)
