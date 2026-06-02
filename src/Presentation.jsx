@@ -303,7 +303,7 @@ const LANE_DATA = [
     tone: 'navy',
   },
   {
-    role: 'TEAMMATE',
+    role: 'YOU',
     title: 'Quick fix',
     branch: 'hotfix/receipt',
     path: '../receipt-fix',
