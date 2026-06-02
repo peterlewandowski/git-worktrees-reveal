@@ -7,6 +7,7 @@ import 'reveal.js/reveal.css';
 const SOURCE_LINKS = {
   git: 'https://git-scm.com/docs/git-worktree',
   vscode: 'https://code.visualstudio.com/docs/sourcecontrol/branches-worktrees',
+  intellij: 'https://www.jetbrains.com/help/idea/use-git-worktrees.html',
   agents: 'https://code.visualstudio.com/docs/copilot/agents/background-agents',
 };
 
@@ -188,6 +189,63 @@ function WorktreeMap() {
   );
 }
 
+function WorkspaceDesk({ label, branch, path, tone = 'blue' }) {
+  return (
+    <div className={`workspace-desk workspace-desk--${tone}`}>
+      <div className="desk-screen">
+        <span />
+        <span />
+        <span />
+      </div>
+      <div className="desk-copy">
+        <span>{label}</span>
+        <strong>{branch}</strong>
+        <code>{path}</code>
+      </div>
+    </div>
+  );
+}
+
+function BranchVsWorktree() {
+  return (
+    <div className="branch-compare">
+      <div className="compare-card compare-card--branches">
+        <div className="compare-heading">
+          <span>BRANCHES</span>
+          <strong>Name the work</strong>
+        </div>
+        <div className="branch-pointer-map" aria-label="Several branches leading to one active workspace">
+          <div className="pointer-lines">
+            <span className="pointer pointer--feature">feature</span>
+            <span className="pointer pointer--main">main</span>
+            <span className="pointer pointer--hotfix">hotfix</span>
+          </div>
+          <div className="pointer-trunk" />
+          <WorkspaceDesk label="ONE CHECKED-OUT DESK" branch="feature" path="./your-repo" tone="navy" />
+        </div>
+        <p>Cheap pointers. Usually one active checkout.</p>
+      </div>
+
+      <div className="compare-plus" aria-hidden="true">+</div>
+
+      <Fragment asChild animation="fade-left" index={1}>
+        <div className="compare-card compare-card--worktrees">
+          <div className="compare-heading">
+            <span>WORKTREES</span>
+            <strong>Give each task a desk</strong>
+          </div>
+          <div className="desk-stack">
+            <WorkspaceDesk label="CURRENT FEATURE" branch="feature" path="./your-repo" tone="navy" />
+            <WorkspaceDesk label="URGENT FIX" branch="hotfix" path="../hotfix" tone="blue" />
+            <WorkspaceDesk label="AGENT TASK" branch="agent-task" path="../agent-task" tone="accent" />
+          </div>
+          <p>Same repo. Separate files, index, and <code>HEAD</code>.</p>
+        </div>
+      </Fragment>
+    </div>
+  );
+}
+
 function CodeInset({ children, title = 'TERMINAL', className = '' }) {
   return (
     <div className={`code-inset ${className}`}>
@@ -206,9 +264,9 @@ function Chevron() {
   return <span className="chevron" aria-hidden="true">›</span>;
 }
 
-function SourceControlPanel() {
+function SourceControlPanel({ compact = false }) {
   return (
-    <div className="vscode-window">
+    <div className={`vscode-window ${compact ? 'ide-window--compact' : ''}`}>
       <div className="vscode-titlebar">
         <span className="traffic-lights"><i /><i /><i /></span>
         <strong>your-repo</strong>
@@ -261,6 +319,68 @@ function SourceControlPanel() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function IntelliJPanel() {
+  return (
+    <div className="intellij-window ide-window--compact">
+      <div className="intellij-titlebar">
+        <span className="traffic-lights"><i /><i /><i /></span>
+        <strong>your-repo</strong>
+        <span>IntelliJ IDEA</span>
+      </div>
+      <div className="intellij-content">
+        <div className="intellij-sidebar">
+          <span className="jetbrains-icon jetbrains-icon--active">G</span>
+          <span className="jetbrains-icon">P</span>
+          <span className="jetbrains-icon">T</span>
+        </div>
+        <div className="intellij-git-panel">
+          <div className="intellij-panel-heading">
+            <strong>GIT</strong>
+            <span>•••</span>
+          </div>
+          <div className="intellij-row"><Chevron /><strong>Log</strong></div>
+          <div className="intellij-row"><Chevron /><strong>Console</strong></div>
+          <div className="intellij-row intellij-row--active"><Chevron /><strong>Worktrees</strong></div>
+          <div className="intellij-worktree"><span>⑂</span> your-repo <small>feature</small></div>
+          <Fragment asChild animation="fade-up" index={1}>
+            <div className="intellij-menu">
+              <div className="intellij-menu-title"><span>⑂</span> Worktrees</div>
+              <div className="intellij-menu-item intellij-menu-item--active">＋ New Worktree...</div>
+              <div className="intellij-menu-item">↗ Open in New Window</div>
+              <div className="intellij-menu-item">− Remove Worktree</div>
+            </div>
+          </Fragment>
+        </div>
+        <div className="intellij-editor">
+          <div className="intellij-tab">PaymentService.kt <span>×</span></div>
+          <div className="intellij-lines">
+            <span><i>1</i><b>class</b> PaymentService &#123;</span>
+            <span><i>2</i>&nbsp;&nbsp;<b>fun</b> submit() &#123;</span>
+            <span><i>3</i>&nbsp;&nbsp;&nbsp;&nbsp;gateway.send()</span>
+            <span><i>4</i>&nbsp;&nbsp;&#125;</span>
+            <span><i>5</i>&#125;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function IDEMockup({ name, eyebrow, note, children }) {
+  return (
+    <div className="ide-mockup">
+      <div className="ide-mockup-heading">
+        <div>
+          <span>{eyebrow}</span>
+          <strong>{name}</strong>
+        </div>
+        <small>{note}</small>
+      </div>
+      {children}
     </div>
   );
 }
@@ -444,26 +564,15 @@ export function Presentation() {
         <SlideFrame
           number={3}
           eyebrow="THE MENTAL MODEL"
-          title="A worktree gives each task its own workspace."
-          lead="Separate working directories and branches. Shared repository data underneath."
+          title="Branches name the work. Worktrees give it a desk."
+          lead="A worktree does not replace a branch. It adds another checked-out workspace for one."
         >
-          <div className="model-grid">
-            <WorktreeMap />
-            <div className="model-explanation">
-              <div className="model-point">
-                <span>01</span>
-                <p><strong>Share the repository.</strong><br />Reuse Git objects and refs.</p>
-              </div>
-              <div className="model-point">
-                <span>02</span>
-                <p><strong>Separate the workspace.</strong><br />Each worktree has its own files, index, and <code>HEAD</code>.</p>
-              </div>
-              <CodeInset>
-                {`git worktree add -b hotfix ../hotfix main
-git worktree list
-git worktree remove ../hotfix`}
-              </CodeInset>
-            </div>
+          <BranchVsWorktree />
+          <div className="compare-command">
+            <CodeInset title="THE EXTRA DESK">
+              {`git worktree add -b hotfix ../hotfix main`}
+            </CodeInset>
+            <p><strong>Best part:</strong> keep both tasks open, runnable, and easy to review.</p>
           </div>
           <p className="fine-print">
             Guardrail: a branch generally cannot be checked out in multiple worktrees at the same time.
@@ -482,42 +591,26 @@ git worktree remove ../hotfix`}
         <SlideFrame
           number={4}
           eyebrow="THE WORKFLOW"
-          title="VS Code makes the workflow approachable."
-          lead="The Source Control view exposes worktrees while the familiar Git commands stay underneath."
+          title="Your IDE can make the extra desk."
+          lead="The menus differ. The Git worktree underneath is the same."
         >
-          <div className="vscode-layout">
-            <SourceControlPanel />
-            <div className="vscode-actions">
-              <Fragment asChild animation="fade-left" index={2}>
-                <div className="action-card">
-                  <span>01</span>
-                  <strong>Create</strong>
-                  <p>Choose a branch and folder.</p>
-                </div>
-              </Fragment>
-              <Fragment asChild animation="fade-left" index={3}>
-                <div className="action-card">
-                  <span>02</span>
-                  <strong>Open</strong>
-                  <p>Work in another window.</p>
-                </div>
-              </Fragment>
-              <Fragment asChild animation="fade-left" index={4}>
-                <div className="action-card">
-                  <span>03</span>
-                  <strong>Compare</strong>
-                  <p>Review before merging.</p>
-                </div>
-              </Fragment>
-            </div>
+          <div className="ide-mockup-grid">
+            <IDEMockup name="VS Code" eyebrow="SOURCE CONTROL" note="Demo path">
+              <SourceControlPanel compact />
+            </IDEMockup>
+            <IDEMockup name="IntelliJ IDEA" eyebrow="GIT TOOL WINDOW" note="Same primitive">
+              <IntelliJPanel />
+            </IDEMockup>
           </div>
         </SlideFrame>
         <aside className="notes">
           <strong>1:40-2:15</strong><br />
-          VS Code now exposes worktrees from Source Control: create a worktree, open it in a new window,
-          compare changes, and migrate changes if needed. The UI makes the primitive more discoverable,
-          and the CLI remains available underneath.<br /><br />
-          Source: <a href={SOURCE_LINKS.vscode}>{SOURCE_LINKS.vscode}</a>
+          This is not a VS Code-specific trick. VS Code exposes worktrees from Source Control: create,
+          open, compare, and migrate changes. IntelliJ IDEA exposes worktrees from the Git tool window:
+          create, open, and remove them. The menus differ; the Git primitive is the same. Our live demo
+          uses VS Code because that is our path today.<br /><br />
+          Sources: <a href={SOURCE_LINKS.vscode}>{SOURCE_LINKS.vscode}</a><br />
+          <a href={SOURCE_LINKS.intellij}>{SOURCE_LINKS.intellij}</a>
         </aside>
       </Slide>
 
