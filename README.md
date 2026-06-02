@@ -43,6 +43,7 @@ https://example.github.io/repository-name/?theme=dark
 
 - [Git worktree documentation](https://git-scm.com/docs/git-worktree)
 - [VS Code Git branches and worktrees](https://code.visualstudio.com/docs/sourcecontrol/branches-worktrees)
+- [IntelliJ IDEA Git worktrees](https://www.jetbrains.com/help/idea/use-git-worktrees.html)
 - [VS Code Copilot CLI sessions](https://code.visualstudio.com/docs/copilot/agents/background-agents)
 - [Official reveal.js React wrapper](https://revealjs.com/react/)
 - [reveal.js speaker view](https://revealjs.com/speaker-view/)

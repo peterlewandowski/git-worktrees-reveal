@@ -1088,6 +1088,190 @@ body {
   line-height: 1.28;
 }
 
+.ide-workflow {
+  margin-top: 22px;
+}
+
+.ide-workflow-cards {
+  display: grid;
+  grid-template-columns: 1fr 95px 1fr;
+  align-items: center;
+  gap: 14px;
+}
+
+.ide-card {
+  position: relative;
+  display: flex;
+  min-height: 224px;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 21px 20px 18px;
+  border: 1px solid #c4d4e4;
+  border-top: 6px solid;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(0, 23, 90, 0.08);
+}
+
+.ide-card--vscode {
+  border-top-color: #006fcf;
+}
+
+.ide-card--intellij {
+  border-top-color: #66a9e2;
+}
+
+.ide-card-topline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ide-card-topline > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ide-mark {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  place-items: center;
+  border-radius: 11px;
+  color: #fff;
+  background: #00175a;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.14em;
+}
+
+.ide-card--intellij .ide-mark {
+  background: #006fcf;
+}
+
+.ide-card-topline span {
+  color: #6c85a2;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.15em;
+}
+
+.ide-card-topline strong {
+  color: #00175a;
+  font-size: 22px;
+  letter-spacing: -0.025em;
+}
+
+.ide-path {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 16px;
+}
+
+.ide-path .chevron {
+  color: #8aa3bb;
+}
+
+.ide-path-step {
+  display: flex;
+  min-height: 56px;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 9px 11px;
+  border: 1px solid #d5e1ec;
+  border-radius: 8px;
+  background: #f8fbfd;
+}
+
+.ide-path-step span {
+  color: #7d96af;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.ide-path-step strong {
+  color: #315675;
+  font-size: 13px;
+}
+
+.ide-path-step--active {
+  border-color: #85bde8;
+  background: #edf7fd;
+}
+
+.ide-path-step--active span,
+.ide-path-step--active strong {
+  color: #006fcf;
+}
+
+.ide-card-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #55718d;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ide-connector {
+  display: grid;
+  gap: 10px;
+}
+
+.ide-connector span {
+  display: block;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #006fcf, #66a9e2);
+}
+
+.ide-connector span:nth-child(1),
+.ide-connector span:nth-child(3) {
+  width: 74%;
+  justify-self: center;
+}
+
+.git-core {
+  display: grid;
+  grid-template-columns: 155px 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+  width: 74%;
+  min-height: 74px;
+  margin: 18px auto 0;
+  padding: 13px 18px;
+  border: 1px solid #b9d8ef;
+  border-radius: 37px;
+  background: #eef7fd;
+  box-shadow: 0 9px 23px rgba(0, 111, 207, 0.09);
+}
+
+.git-core-label {
+  color: #006fcf;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.15em;
+}
+
+.git-core code {
+  color: #00175a;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.git-core span {
+  color: #5d7995;
+  font-size: 13px;
+  font-weight: 650;
+}
+
 /* Slide 5 */
 
 .demo-cue {
@@ -1563,6 +1747,74 @@ html[data-theme="dark"] body,
 
 .presentation-shell[data-theme="dark"] .agent-note p {
   color: #bdd3e6;
+}
+
+.presentation-shell[data-theme="dark"] .ide-card {
+  border-color: #315274;
+  background: #0e2441;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+.presentation-shell[data-theme="dark"] .ide-card--vscode {
+  border-top-color: #006fcf;
+}
+
+.presentation-shell[data-theme="dark"] .ide-card--intellij {
+  border-top-color: #66a9e2;
+}
+
+.presentation-shell[data-theme="dark"] .ide-card-topline span,
+.presentation-shell[data-theme="dark"] .ide-card-note {
+  color: #a7bdd3;
+}
+
+.presentation-shell[data-theme="dark"] .ide-card-topline strong {
+  color: #eef7ff;
+}
+
+.presentation-shell[data-theme="dark"] .ide-mark {
+  background: #006fcf;
+}
+
+.presentation-shell[data-theme="dark"] .ide-card--intellij .ide-mark {
+  background: #66a9e2;
+}
+
+.presentation-shell[data-theme="dark"] .ide-path-step {
+  border-color: #315274;
+  background: #102842;
+}
+
+.presentation-shell[data-theme="dark"] .ide-path-step span {
+  color: #88a6c0;
+}
+
+.presentation-shell[data-theme="dark"] .ide-path-step strong {
+  color: #bcd2e6;
+}
+
+.presentation-shell[data-theme="dark"] .ide-path-step--active {
+  border-color: #4e86b5;
+  background: #153b5f;
+}
+
+.presentation-shell[data-theme="dark"] .ide-path-step--active span,
+.presentation-shell[data-theme="dark"] .ide-path-step--active strong {
+  color: #b7ddfa;
+}
+
+.presentation-shell[data-theme="dark"] .git-core {
+  border-color: #315b82;
+  background: #102d4c;
+  box-shadow: 0 9px 23px rgba(0, 0, 0, 0.2);
+}
+
+.presentation-shell[data-theme="dark"] .git-core code {
+  color: #eef7ff;
+}
+
+.presentation-shell[data-theme="dark"] .git-core span {
+  color: #b6cee2;
 }
 
 @media print {
