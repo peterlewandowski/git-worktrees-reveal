@@ -467,6 +467,41 @@ function Takeaway({ number, title, text }) {
   );
 }
 
+function ClosingWorkflow() {
+  return (
+    <div className="closing-workflow">
+      <div className="closing-panel closing-panel--problem">
+        <span className="closing-kicker">THE BOTTLENECK</span>
+        <strong>One working folder carries every interruption</strong>
+        <div className="context-loop" aria-label="Old context switching loop">
+          <span>stash</span>
+          <span>checkout</span>
+          <span>rebuild</span>
+          <span>reorient</span>
+        </div>
+        <p>Branches are cheap. Rebuilding your mental context is the expensive part.</p>
+      </div>
+
+      <div className="closing-transfer" aria-hidden="true">
+        <span />
+        <strong>becomes</strong>
+        <span />
+      </div>
+
+      <div className="closing-panel closing-panel--workflow">
+        <span className="closing-kicker">THE WORKFLOW UPGRADE</span>
+        <strong>One repo becomes focused lanes of work</strong>
+        <div className="lane-stack" aria-label="Focused worktree lanes">
+          <span><i />You: current feature</span>
+          <span><i />Agent: focused task</span>
+          <span><i />Reviewer: clean diff</span>
+        </div>
+        <p>Humans and agents can move in parallel without disturbing today's workspace.</p>
+      </div>
+    </div>
+  );
+}
+
 function AgentLaneCard({ number, title, text, prompt }) {
   return (
     <div className="agent-lane-card">
@@ -689,23 +724,25 @@ export function Presentation() {
         <SlideFrame
           number={7}
           eyebrow="THE TAKEAWAY"
-          title={<>Clean lanes.<br /><span className="title-accent">Confident merges.</span></>}
-          lead="Worktrees turn AI-assisted tasks into clean, reviewable units of work."
+          title={<>Stop juggling context.<br /><span className="title-accent">Add a lane.</span></>}
+          lead="Worktrees solve the main problem: one busy workspace trying to hold every feature, fix, experiment, and agent task."
           className="closing-slide"
         >
-          <div className="takeaway-grid">
-            <Takeaway number="01" title="Delegate clearly" text="One agent task per branch and folder." />
-            <Takeaway number="02" title="Compare easily" text="Every lane produces a focused diff." />
-            <Takeaway number="03" title="Merge selectively" text="Only promote the work that helps." />
+          <ClosingWorkflow />
+          <div className="takeaway-grid takeaway-grid--closing">
+            <Takeaway number="01" title="Preserve momentum" text="Keep your current work open while the next task starts elsewhere." />
+            <Takeaway number="02" title="Delegate cleanly" text="Give each agent one branch, one folder, and one reviewable goal." />
+            <Takeaway number="03" title="Merge selectively" text="Promote only the work that improves the codebase." />
           </div>
-          <CodeInset title="AGENT WORKFLOW" className="closing-code">
-            {`task -> worktree -> agent -> review -> merge`}
-          </CodeInset>
+          <div className="closing-final-line">
+            Efficiency gain: fewer resets, clearer delegation, cleaner reviews.
+          </div>
         </SlideFrame>
         <aside className="notes">
           <strong>4:30-5:00</strong><br />
-          Final line: worktrees make agent-assisted development feel less like a pile of generated code
-          and more like a set of clean, reviewable work units.
+          Tie it back to the problem: the team was not blocked because branches were hard. The team
+          was losing time to one working folder carrying too many jobs. Worktrees give humans and
+          agents separate lanes, so the output is easier to review and safer to merge.
         </aside>
       </Slide>
       </Deck>
