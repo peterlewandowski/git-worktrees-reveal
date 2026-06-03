@@ -347,6 +347,127 @@ function Takeaway({ number, title, text }) {
   );
 }
 
+function PromptBubble({ label, text, response }) {
+  return (
+    <div className="prompt-bubble">
+      <span>{label}</span>
+      <p>{text}</p>
+      <small>{response}</small>
+    </div>
+  );
+}
+
+function ProductivityLane({ role, title, branch, prompt, status, tone = 'blue' }) {
+  return (
+    <div className={`productivity-lane productivity-lane--${tone}`}>
+      <div className="lane-role">{role}</div>
+      <div className="productivity-lane-main">
+        <strong>{title}</strong>
+        <code>{branch}</code>
+        <span>{prompt}</span>
+      </div>
+      <div className="lane-status">
+        <i />
+        {status}
+      </div>
+    </div>
+  );
+}
+
+function ExampleCard({ number, title, text, prompt }) {
+  return (
+    <div className="workflow-example">
+      <span>{number}</span>
+      <strong>{title}</strong>
+      <p>{text}</p>
+      <code>{prompt}</code>
+    </div>
+  );
+}
+
+function CopilotWorkspaceVisual() {
+  return (
+    <div className="ai-workspace-grid">
+      <div className="ai-workspace-map">
+        <RepoBadge label="app-repo" compact />
+        <div className="ai-lanes">
+          <ProductivityLane
+            role="YOU"
+            title="Keep building checkout"
+            branch="feature/checkout"
+            prompt="No stash. No reset. Stay in flow."
+            status="Open"
+            tone="navy"
+          />
+          <Fragment asChild animation="fade-up" index={1}>
+            <ProductivityLane
+              role="CHAT"
+              title="Fix production receipt bug"
+              branch="hotfix/receipt-total"
+              prompt="Copilot Chat works in the hotfix worktree."
+              status="Review"
+              tone="blue"
+            />
+          </Fragment>
+          <Fragment asChild animation="fade-up" index={2}>
+            <ProductivityLane
+              role="CHAT"
+              title="Generate regression tests"
+              branch="tests/receipt-total"
+              prompt="Ask for tests without touching the fix."
+              status="Ready"
+              tone="accent"
+            />
+          </Fragment>
+        </div>
+      </div>
+      <div className="prompt-stack">
+        <PromptBubble
+          label="COPILOT CHAT"
+          text="Find the failing path for receipt totals and propose the smallest fix."
+          response="Works in ../receipt-fix"
+        />
+        <PromptBubble
+          label="COPILOT CHAT"
+          text="Add focused tests for the rounding edge case."
+          response="Works in ../receipt-tests"
+        />
+      </div>
+    </div>
+  );
+}
+
+function ExampleGrid() {
+  return (
+    <div className="workflow-example-grid">
+      <Fragment asChild animation="fade-up" index={1}>
+        <ExampleCard
+          number="01"
+          title="Hotfix without derailing the feature"
+          text="Open a hotfix worktree, ask Copilot Chat for a narrow patch, and keep the original feature window untouched."
+          prompt="Fix the failing receipt total test with the smallest change."
+        />
+      </Fragment>
+      <Fragment asChild animation="fade-up" index={2}>
+        <ExampleCard
+          number="02"
+          title="Tests in a sibling workspace"
+          text="Let Chat draft regression tests while your implementation branch remains clean enough to reason about."
+          prompt="Generate tests for this bug using the existing test style."
+        />
+      </Fragment>
+      <Fragment asChild animation="fade-up" index={3}>
+        <ExampleCard
+          number="03"
+          title="Risky refactor as a reversible spike"
+          text="Ask for the cleanup in a throwaway worktree. Keep it if it helps; delete the worktree if it gets noisy."
+          prompt="Refactor this module for readability without changing behavior."
+        />
+      </Fragment>
+    </div>
+  );
+}
+
 export function Presentation() {
   const [theme, setTheme] = useState(getInitialTheme);
   const toggleTheme = useCallback(() => {
@@ -402,88 +523,80 @@ export function Presentation() {
       <Slide data-timing="20">
         <SlideFrame
           number={1}
-          eyebrow="GIT WORKTREES"
-          title={<>One repo.<br /><span className="title-accent">More room to work.</span></>}
-          lead="Keep your current task exactly where it is. Give the next task a workspace of its own."
+          eyebrow="AI + GIT WORKTREES"
+          title={<>Give Copilot Chat<br /><span className="title-accent">its own workspace.</span></>}
+          lead="Less branch juggling. More focused AI-assisted work."
           className="intro-slide"
         >
           <BranchNetwork />
         </SlideFrame>
         <aside className="notes">
           <strong>0:00-0:20</strong><br />
-          We have all had the moment: you are halfway through one task and another one arrives.
-          A worktree lets that second task have its own workspace without disturbing the first.
-          Today: the Git primitive, the VS Code workflow, and why this matters even more with agents.
+          This version is about productivity, not memorizing Git commands. Worktrees give Copilot Chat
+          and similar coding tools a clean workspace so you can keep your main task open and let the
+          next task happen somewhere else.
         </aside>
       </Slide>
 
       <Slide data-timing="35">
         <SlideFrame
           number={2}
-          eyebrow="THE PROBLEM"
-          title="The branch is cheap. The interruption is not."
-          lead="One working directory means every urgent task borrows the desk you were already using."
+          eyebrow="THE SHIFT"
+          title="Branches name work. Worktrees create places to work."
+          lead="AI tools get more useful when every task has a clean lane."
         >
-          <InterruptionFlow />
-          <Fragment asChild animation="fade-up" index={5}>
-            <div className="clone-note">
-              <strong>Could we clone again?</strong>
-              <span>Yes. It works. It also adds another repo to manage.</span>
+          <div className="model-grid">
+            <WorktreeMap />
+            <div className="model-explanation ai-principles">
+              <div className="model-point">
+                <span>01</span>
+                <p><strong>Your feature stays open.</strong><br />No stash, reset, or reorientation.</p>
+              </div>
+              <div className="model-point">
+                <span>02</span>
+                <p><strong>Copilot gets clean context.</strong><br />The prompt, diff, tests, and branch line up.</p>
+              </div>
+              <div className="model-point">
+                <span>03</span>
+                <p><strong>Review stays deliberate.</strong><br />Each result is isolated until you merge it.</p>
+              </div>
             </div>
-          </Fragment>
+          </div>
         </SlideFrame>
         <aside className="notes">
           <strong>0:20-0:55</strong><br />
-          Branches themselves are inexpensive. The real tax is context switching in a single working
-          directory. Stash, checkout, rebuild, and then later reconstruct your mental state. Another
-          clone is a valid escape hatch, but it creates extra setup and duplicated repository data.
+          Keep the explanation short: a branch is the line of work, a worktree is the checked-out
+          workspace. That matters with AI because the tool can work against a clean branch and folder
+          while your current editor state remains intact.
         </aside>
       </Slide>
 
       <Slide data-timing="45">
         <SlideFrame
           number={3}
-          eyebrow="THE MENTAL MODEL"
-          title="A worktree gives each task its own workspace."
-          lead="Separate working directories and branches. Shared repository data underneath."
+          eyebrow="THE PRODUCTIVITY LOOP"
+          title="One repo. Several useful AI conversations."
+          lead="Give every prompt a workspace that matches the task."
         >
-          <div className="model-grid">
-            <WorktreeMap />
-            <div className="model-explanation">
-              <div className="model-point">
-                <span>01</span>
-                <p><strong>Share the repository.</strong><br />Reuse Git objects and refs.</p>
-              </div>
-              <div className="model-point">
-                <span>02</span>
-                <p><strong>Separate the workspace.</strong><br />Each worktree has its own files, index, and <code>HEAD</code>.</p>
-              </div>
-              <CodeInset>
-                {`git worktree add -b hotfix ../hotfix main
-git worktree list
-git worktree remove ../hotfix`}
-              </CodeInset>
-            </div>
-          </div>
+          <CopilotWorkspaceVisual />
           <p className="fine-print">
-            Guardrail: a branch generally cannot be checked out in multiple worktrees at the same time.
+            Under the hood: separate working directories, shared repository data, separate review points.
           </p>
         </SlideFrame>
         <aside className="notes">
           <strong>0:55-1:40</strong><br />
-          This is the whole mental model: one repository, more than one checked-out workspace.
-          Linked worktrees share repository data while keeping per-worktree state such as HEAD and the
-          index separate. A branch is generally checked out in one worktree at a time.<br /><br />
-          Source: <a href={SOURCE_LINKS.git}>{SOURCE_LINKS.git}</a>
+          The productivity loop: identify a task, create a clean worktree, use Copilot Chat there, run
+          the tests there, then review that specific diff. This avoids mixing the AI-generated work with
+          whatever you were doing before. Source: <a href={SOURCE_LINKS.git}>{SOURCE_LINKS.git}</a>
         </aside>
       </Slide>
 
       <Slide data-timing="35">
         <SlideFrame
           number={4}
-          eyebrow="THE WORKFLOW"
-          title="VS Code makes the workflow approachable."
-          lead="The Source Control view exposes worktrees while the familiar Git commands stay underneath."
+          eyebrow="THE TOOLING"
+          title="VS Code makes the workspace switch feel natural."
+          lead="Our demo uses VS Code Source Control, then Copilot Chat inside the new worktree."
         >
           <div className="vscode-layout">
             <SourceControlPanel />
@@ -491,22 +604,22 @@ git worktree remove ../hotfix`}
               <Fragment asChild animation="fade-left" index={2}>
                 <div className="action-card">
                   <span>01</span>
-                  <strong>Create</strong>
-                  <p>Choose a branch and folder.</p>
+                  <strong>Open a lane</strong>
+                  <p>Create a worktree for the task.</p>
                 </div>
               </Fragment>
               <Fragment asChild animation="fade-left" index={3}>
                 <div className="action-card">
                   <span>02</span>
-                  <strong>Open</strong>
-                  <p>Work in another window.</p>
+                  <strong>Prompt there</strong>
+                  <p>Ask Chat with clean context.</p>
                 </div>
               </Fragment>
               <Fragment asChild animation="fade-left" index={4}>
                 <div className="action-card">
                   <span>03</span>
-                  <strong>Compare</strong>
-                  <p>Review before merging.</p>
+                  <strong>Review diff</strong>
+                  <p>Keep, merge, or discard.</p>
                 </div>
               </Fragment>
             </div>
@@ -514,9 +627,9 @@ git worktree remove ../hotfix`}
         </SlideFrame>
         <aside className="notes">
           <strong>1:40-2:15</strong><br />
-          VS Code now exposes worktrees from Source Control: create a worktree, open it in a new window,
-          compare changes, and migrate changes if needed. The UI makes the primitive more discoverable,
-          and the CLI remains available underneath.<br /><br />
+          The demo is still VS Code-based. The point is not to teach the menu; it is to show that the
+          second workspace can be opened, prompted, tested, and reviewed without disturbing the first.
+          VS Code exposes worktrees in Source Control, while Git remains the primitive underneath.<br /><br />
           Source: <a href={SOURCE_LINKS.vscode}>{SOURCE_LINKS.vscode}</a>
         </aside>
       </Slide>
@@ -526,38 +639,29 @@ git worktree remove ../hotfix`}
         <aside className="notes">
           <strong>2:15-3:45 - LIVE DEMO</strong><br />
           1. In the current repo, open Source Control and choose Worktrees &gt; Create Worktree.<br />
-          2. Create a branch such as demo/copilot-note in a sibling folder.<br />
+          2. Create a branch such as demo/receipt-tests in a sibling folder.<br />
           3. Open the new worktree in a second VS Code window.<br />
-          4. Ask Copilot Chat for a small focused change.<br />
+          4. Ask Copilot Chat for a small focused test or bugfix.<br />
           5. Show the original window: its working files remain undisturbed.<br /><br />
-          CLI fallback: git worktree add -b demo/copilot-note ../copilot-note main
+          CLI fallback: git worktree add -b demo/receipt-tests ../receipt-tests main
         </aside>
       </Slide>
 
       <Slide data-timing="45">
         <SlideFrame
           number={6}
-          eyebrow="THE AGENT ERA"
-          title="Parallel work becomes a practical habit."
-          lead="Use worktrees for human context switching today. Use isolated workspaces for agent tasks as the workflow grows."
+          eyebrow="EXAMPLES"
+          title="Three workflows that feel better with worktrees."
+          lead="Use AI help without turning one branch into a pile of experiments."
         >
-          <ParallelLanes />
-          <Fragment asChild animation="fade-up" index={4}>
-            <div className="agent-note">
-              <span className="agent-note-label">NEXT STEP</span>
-              <p>
-                Copilot CLI background sessions in VS Code can create isolated worktrees automatically.
-                Review the result, then choose what to merge.
-              </p>
-            </div>
-          </Fragment>
+          <ExampleGrid />
         </SlideFrame>
         <aside className="notes">
           <strong>3:45-4:30</strong><br />
-          The manual workflow already helps with interruptions. It also gives agent tasks a clean
-          boundary: each task has its own workspace, branch, and review point. Separately, current
-          Copilot CLI background sessions in VS Code can use worktree isolation automatically. That is
-          one product workflow, not a claim that every coding agent automatically uses worktrees.<br /><br />
+          These are practical day-to-day examples: a hotfix, tests, and a risky refactor. The common
+          pattern is that the AI work happens in a task-specific workspace, so the output is easier to
+          inspect and easier to throw away if it does not help. Some Copilot CLI background sessions can
+          create isolated worktrees automatically.<br /><br />
           Source: <a href={SOURCE_LINKS.agents}>{SOURCE_LINKS.agents}</a>
         </aside>
       </Slide>
@@ -566,26 +670,23 @@ git worktree remove ../hotfix`}
         <SlideFrame
           number={7}
           eyebrow="THE TAKEAWAY"
-          title={<>Stop switching.<br /><span className="title-accent">Add a workspace.</span></>}
-          lead="One small Git primitive makes concurrent work easier to start, easier to review, and easier to reason about."
+          title={<>Better prompts need<br /><span className="title-accent">better boundaries.</span></>}
+          lead="Worktrees turn AI-assisted tasks into clean, reviewable units of work."
           className="closing-slide"
         >
           <div className="takeaway-grid">
-            <Takeaway number="01" title="Preserve context" text="Leave your current task exactly where it is." />
-            <Takeaway number="02" title="Isolate work" text="Give each concurrent task its own lane." />
-            <Takeaway number="03" title="Review deliberately" text="Choose what to merge when the work is ready." />
+            <Takeaway number="01" title="Stay in flow" text="Your active feature remains open." />
+            <Takeaway number="02" title="Prompt with context" text="Chat works inside the right branch and folder." />
+            <Takeaway number="03" title="Review cleanly" text="Each AI result has its own diff." />
           </div>
-          <CodeInset title="REMEMBER THESE THREE" className="closing-code">
-            {`git worktree add
-git worktree list
-git worktree remove`}
+          <CodeInset title="MENTAL MODEL" className="closing-code">
+            {`task -> worktree -> prompt -> test -> review`}
           </CodeInset>
         </SlideFrame>
         <aside className="notes">
           <strong>4:30-5:00</strong><br />
-          Three things to remember: preserve context, isolate concurrent work, and review deliberately.
-          The CLI is small: add, list, remove. VS Code makes it approachable. Agents make the primitive
-          increasingly useful. Thank you.
+          The close: worktrees are productivity infrastructure for AI coding tools. They keep context
+          intact, make prompts more grounded, and make generated changes easier to review.
         </aside>
       </Slide>
       </Deck>
