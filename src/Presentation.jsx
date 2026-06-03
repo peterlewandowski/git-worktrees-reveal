@@ -11,6 +11,7 @@ const SOURCE_LINKS = {
   agents: 'https://code.visualstudio.com/docs/copilot/agents/background-agents',
   copilotCli: 'https://code.visualstudio.com/docs/agents/agent-types/copilot-cli',
   copilotCodingAgent: 'https://docs.github.com/en/copilot/using-github-copilot/coding-agent',
+  agentsWindow: 'https://code.visualstudio.com/docs/agents/agents-window',
 };
 
 const RESOURCE_LINKS = [
@@ -43,6 +44,12 @@ const RESOURCE_LINKS = [
     title: 'Coding agent',
     text: 'Official docs for delegating tasks, tracking sessions, and reviewing PRs.',
     href: SOURCE_LINKS.copilotCodingAgent,
+  },
+  {
+    label: 'VS Code Agents',
+    title: 'Agents Window',
+    text: 'Agent-first window for running sessions, reviewing changes, and worktree isolation.',
+    href: SOURCE_LINKS.agentsWindow,
   },
 ];
 
@@ -851,7 +858,8 @@ export function Presentation() {
           VS Code worktrees: <a href={SOURCE_LINKS.vscode}>{SOURCE_LINKS.vscode}</a><br />
           IntelliJ worktrees: <a href={SOURCE_LINKS.intellij}>{SOURCE_LINKS.intellij}</a><br />
           VS Code Copilot CLI sessions: <a href={SOURCE_LINKS.copilotCli}>{SOURCE_LINKS.copilotCli}</a><br />
-          GitHub Copilot coding agent: <a href={SOURCE_LINKS.copilotCodingAgent}>{SOURCE_LINKS.copilotCodingAgent}</a>
+          GitHub Copilot coding agent: <a href={SOURCE_LINKS.copilotCodingAgent}>{SOURCE_LINKS.copilotCodingAgent}</a><br />
+          VS Code Agents Window: <a href={SOURCE_LINKS.agentsWindow}>{SOURCE_LINKS.agentsWindow}</a>
         </aside>
       </Slide>
       </Deck>
