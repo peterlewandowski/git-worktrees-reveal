@@ -1346,6 +1346,175 @@ body {
   line-height: 1.5;
 }
 
+/* AI productivity variants */
+
+.ai-principles {
+  justify-content: center;
+  padding-top: 32px;
+}
+
+.ai-workspace-grid {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 26px;
+  align-items: center;
+  margin-top: 26px;
+}
+
+.ai-workspace-map {
+  min-height: 330px;
+  padding: 22px;
+  border: 1px solid #d0deeb;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(0, 23, 90, 0.08);
+}
+
+.ai-lanes {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.productivity-lane {
+  display: grid;
+  grid-template-columns: 70px 1fr 130px;
+  align-items: center;
+  min-height: 76px;
+  overflow: hidden;
+  border: 1px solid #d0ddea;
+  border-left: 6px solid #006fcf;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.productivity-lane--navy {
+  border-left-color: #00175a;
+}
+
+.productivity-lane--accent {
+  border-left-color: #66a9e2;
+}
+
+.productivity-lane-main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 16px;
+}
+
+.productivity-lane-main strong {
+  color: #00175a;
+  font-size: 17px;
+}
+
+.productivity-lane-main code {
+  color: #006fcf;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 12px;
+}
+
+.productivity-lane-main span {
+  color: #657f99;
+  font-size: 12px;
+}
+
+.prompt-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.prompt-bubble {
+  position: relative;
+  padding: 18px;
+  border: 1px solid #c3ddef;
+  border-radius: 14px;
+  background: #eef7fd;
+}
+
+.prompt-bubble::before {
+  position: absolute;
+  top: 28px;
+  left: -10px;
+  width: 18px;
+  height: 18px;
+  content: "";
+  background: #eef7fd;
+  border-bottom: 1px solid #c3ddef;
+  border-left: 1px solid #c3ddef;
+  transform: rotate(45deg);
+}
+
+.prompt-bubble span {
+  color: #006fcf;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.15em;
+}
+
+.prompt-bubble p {
+  margin: 12px 0;
+  color: #00175a;
+  font-size: 18px;
+  line-height: 1.28;
+}
+
+.prompt-bubble small {
+  color: #5c7894;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.workflow-example-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.workflow-example {
+  min-height: 285px;
+  padding: 18px;
+  border: 1px solid #d4e0eb;
+  border-top: 5px solid #006fcf;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0, 23, 90, 0.06);
+}
+
+.workflow-example > span {
+  color: #66a9e2;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.workflow-example strong {
+  display: block;
+  margin-top: 16px;
+  color: #00175a;
+  font-size: 20px;
+  line-height: 1.12;
+}
+
+.workflow-example p {
+  margin: 12px 0;
+  color: #5f7b98;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.workflow-example code {
+  display: block;
+  padding: 11px;
+  border-radius: 8px;
+  color: #006fcf;
+  background: #eef7fd;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
 /* Dark mode */
 
 html[data-theme="dark"],
@@ -1563,6 +1732,37 @@ html[data-theme="dark"] body,
 
 .presentation-shell[data-theme="dark"] .agent-note p {
   color: #bdd3e6;
+}
+
+.presentation-shell[data-theme="dark"] .ai-workspace-map,
+.presentation-shell[data-theme="dark"] .productivity-lane,
+.presentation-shell[data-theme="dark"] .workflow-example {
+  border-color: #315274;
+  background: #0e2441;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+}
+
+.presentation-shell[data-theme="dark"] .productivity-lane-main strong,
+.presentation-shell[data-theme="dark"] .prompt-bubble p,
+.presentation-shell[data-theme="dark"] .workflow-example strong {
+  color: #eef7ff;
+}
+
+.presentation-shell[data-theme="dark"] .productivity-lane-main span,
+.presentation-shell[data-theme="dark"] .prompt-bubble small,
+.presentation-shell[data-theme="dark"] .workflow-example p {
+  color: #a7bdd3;
+}
+
+.presentation-shell[data-theme="dark"] .prompt-bubble,
+.presentation-shell[data-theme="dark"] .workflow-example code {
+  border-color: #315b82;
+  background: #102d4c;
+}
+
+.presentation-shell[data-theme="dark"] .prompt-bubble::before {
+  border-color: #315b82;
+  background: #102d4c;
 }
 
 @media print {
