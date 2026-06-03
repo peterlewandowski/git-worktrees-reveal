@@ -16,6 +16,7 @@ on:
       - codex/ver11-copilot-worktree-lanes
       - codex/ver12-task-separation
       - codex/ver13-official-resources
+      - codex/ver14-agents-window-resource
   workflow_dispatch:
 
 permissions:
@@ -109,6 +110,12 @@ jobs:
           ref: codex/ver13-official-resources
           path: ver13-official-resources
 
+      - name: Check out Agents Window resource presentation
+        uses: actions/checkout@v4
+        with:
+          ref: codex/ver14-agents-window-resource
+          path: ver14-agents-window-resource
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -128,6 +135,7 @@ jobs:
             ver11-copilot-worktree-lanes/package-lock.json
             ver12-task-separation/package-lock.json
             ver13-official-resources/package-lock.json
+            ver14-agents-window-resource/package-lock.json
 
       - name: Install main presentation dependencies
         run: npm ci
@@ -233,9 +241,17 @@ jobs:
         run: npm run build
         working-directory: ver13-official-resources
 
+      - name: Install Agents Window resource presentation dependencies
+        run: npm ci
+        working-directory: ver14-agents-window-resource
+
+      - name: Build Agents Window resource presentation
+        run: npm run build
+        working-directory: ver14-agents-window-resource
+
       - name: Compose Pages site
         run: |
-          mkdir -p site/ver1 site/ver2 site/ver3 site/ver4 site/ver5 site/ver6 site/ver7 site/ver8 site/ver9 site/ver10 site/ver11 site/ver12 site/ver13 site/human-visual-refresh
+          mkdir -p site/ver1 site/ver2 site/ver3 site/ver4 site/ver5 site/ver6 site/ver7 site/ver8 site/ver9 site/ver10 site/ver11 site/ver12 site/ver13 site/ver14 site/human-visual-refresh
           cp -R main-deck/dist/. site/
           cp -R main-deck/dist/. site/ver1/
           cp -R human-visual-refresh/dist/. site/ver2/
@@ -250,6 +266,7 @@ jobs:
           cp -R ver11-copilot-worktree-lanes/dist/. site/ver11/
           cp -R ver12-task-separation/dist/. site/ver12/
           cp -R ver13-official-resources/dist/. site/ver13/
+          cp -R ver14-agents-window-resource/dist/. site/ver14/
           cp -R human-visual-refresh/dist/. site/human-visual-refresh/
 
       - name: Configure Pages
