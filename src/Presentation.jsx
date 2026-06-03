@@ -765,7 +765,7 @@ export function Presentation() {
           number={7}
           eyebrow="THE TAKEAWAY"
           title={<>Agentic Development.<br /><span className="title-accent">Parallel possibilities.</span></>}
-          lead="More lane separation + Less context switching = Efficiency and Speed"
+          lead="Task separation with speed and control = Git Worktrees + AI Agents"
           className="closing-slide"
         >
           <CompactClosing />
