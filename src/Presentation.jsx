@@ -78,6 +78,14 @@ function RepoBadge({ label = 'your-repo', compact = false }) {
   );
 }
 
+function PopCard({ index, children }) {
+  return (
+    <Fragment asChild animation="card-pop" index={index}>
+      {children}
+    </Fragment>
+  );
+}
+
 function FolderCard({ branch, path, tone = 'primary', meta, className = '' }) {
   return (
     <div className={`folder-card folder-card--${tone} ${className}`}>
@@ -107,18 +115,24 @@ function BranchNetwork() {
         <RepoBadge />
         <span>one shared codebase</span>
       </div>
-      <div className="branch-label branch-label--main">
-        <strong>you: feature</strong>
-        <span>./your-repo</span>
-      </div>
-      <div className="branch-label branch-label--hotfix">
-        <strong>agent: fix</strong>
-        <span>../hotfix</span>
-      </div>
-      <div className="branch-label branch-label--agent">
-        <strong>agent: tests</strong>
-        <span>../agent-task</span>
-      </div>
+      <PopCard index={1}>
+        <div className="branch-label branch-label--main">
+          <strong>you: feature</strong>
+          <span>./your-repo</span>
+        </div>
+      </PopCard>
+      <PopCard index={2}>
+        <div className="branch-label branch-label--hotfix">
+          <strong>agent: fix</strong>
+          <span>../hotfix</span>
+        </div>
+      </PopCard>
+      <PopCard index={3}>
+        <div className="branch-label branch-label--agent">
+          <strong>agent: tests</strong>
+          <span>../agent-task</span>
+        </div>
+      </PopCard>
     </div>
   );
 }
@@ -209,26 +223,30 @@ function WorkspaceDesk({ label, branch, path, tone = 'blue' }) {
 function BranchVsWorktree() {
   return (
     <div className="branch-compare">
-      <div className="compare-card compare-card--branches">
-        <div className="compare-heading">
-          <span>BRANCHES</span>
-          <strong>Name the change</strong>
-        </div>
-        <div className="branch-pointer-map" aria-label="Several branches leading to one active workspace">
-          <div className="pointer-lines">
-            <span className="pointer pointer--feature">feature</span>
-            <span className="pointer pointer--main">main</span>
-            <span className="pointer pointer--hotfix">hotfix</span>
+      <PopCard index={1}>
+        <div className="compare-card compare-card--branches">
+          <div className="compare-heading">
+            <span>BRANCHES</span>
+            <strong>Name the change</strong>
           </div>
-          <div className="pointer-trunk" />
-          <WorkspaceDesk label="ONE CHECKED-OUT DESK" branch="feature" path="./your-repo" tone="navy" />
+          <div className="branch-pointer-map" aria-label="Several branches leading to one active workspace">
+            <div className="pointer-lines">
+              <span className="pointer pointer--feature">feature</span>
+              <span className="pointer pointer--main">main</span>
+              <span className="pointer pointer--hotfix">hotfix</span>
+            </div>
+            <div className="pointer-trunk" />
+            <WorkspaceDesk label="ONE CHECKED-OUT DESK" branch="feature" path="./your-repo" tone="navy" />
+          </div>
+          <p>Great for history. One checkout can still carry too much at once.</p>
         </div>
-        <p>Great for history. One checkout can still carry too much at once.</p>
-      </div>
+      </PopCard>
 
-      <div className="compare-plus" aria-hidden="true">+</div>
+      <Fragment asChild animation="fade-in" index={2}>
+        <div className="compare-plus" aria-hidden="true">+</div>
+      </Fragment>
 
-      <Fragment asChild animation="fade-left" index={1}>
+      <PopCard index={3}>
         <div className="compare-card compare-card--worktrees">
           <div className="compare-heading">
             <span>WORKTREES</span>
@@ -241,7 +259,7 @@ function BranchVsWorktree() {
           </div>
           <p>Same repo. Separate files, index, and <code>HEAD</code> for clear review.</p>
         </div>
-      </Fragment>
+      </PopCard>
     </div>
   );
 }
@@ -296,14 +314,14 @@ function SourceControlPanel({ compact = false }) {
           </div>
           <div className="file-row"><span>M</span> src/payment.ts</div>
           <div className="file-row"><span>M</span> src/checkout.tsx</div>
-          <Fragment asChild animation="fade-up" index={1}>
+          <PopCard index={1}>
             <div className="worktrees-menu">
               <div className="menu-title"><span>⑂</span> Worktrees</div>
               <div className="menu-item menu-item--active">＋ Create Worktree...</div>
               <div className="menu-item">↗ Open Worktree</div>
               <div className="menu-item">⇄ Compare with Worktree</div>
             </div>
-          </Fragment>
+          </PopCard>
         </div>
         <div className="editor-panel">
           <div className="editor-tab">payment.ts <span>×</span></div>
@@ -346,14 +364,14 @@ function IntelliJPanel() {
           <div className="intellij-row"><Chevron /><strong>Console</strong></div>
           <div className="intellij-row intellij-row--active"><Chevron /><strong>Worktrees</strong></div>
           <div className="intellij-worktree"><span>⑂</span> your-repo <small>feature</small></div>
-          <Fragment asChild animation="fade-up" index={1}>
+          <PopCard index={1}>
             <div className="intellij-menu">
               <div className="intellij-menu-title"><span>⑂</span> Worktrees</div>
               <div className="intellij-menu-item intellij-menu-item--active">＋ New Worktree...</div>
               <div className="intellij-menu-item">↗ Open in New Window</div>
               <div className="intellij-menu-item">− Remove Worktree</div>
             </div>
-          </Fragment>
+          </PopCard>
         </div>
         <div className="intellij-editor">
           <div className="intellij-tab">PaymentService.kt <span>×</span></div>
@@ -397,11 +415,17 @@ function DemoCue() {
       <h2>Open an agent lane<br />in VS Code.</h2>
       <p>Invite Copilot into a focused workspace, then review one clear diff.</p>
       <div className="demo-checklist">
-        <span><b>01</b> Create lane</span>
+        <PopCard index={1}>
+          <span><b>01</b> Create lane</span>
+        </PopCard>
         <Chevron />
-        <span><b>02</b> Copilot Chat</span>
+        <PopCard index={2}>
+          <span><b>02</b> Copilot Chat</span>
+        </PopCard>
         <Chevron />
-        <span><b>03</b> Review diff</span>
+        <PopCard index={3}>
+          <span><b>03</b> Review diff</span>
+        </PopCard>
       </div>
     </div>
   );
@@ -438,7 +462,7 @@ function ParallelLanes() {
   return (
     <div className="parallel-lanes">
       {LANE_DATA.map((lane, index) => (
-        <Fragment key={lane.branch} asChild animation="fade-up" index={index + 1}>
+        <Fragment key={lane.branch} asChild animation="card-pop" index={index + 1}>
           <div className={`parallel-lane parallel-lane--${lane.tone}`}>
             <div className="lane-role">{lane.role}</div>
             <div className="lane-content">
@@ -470,32 +494,46 @@ function Takeaway({ number, title, text }) {
 function CompactClosing() {
   return (
     <div className="compact-closing">
-      <div className="closing-headline-card">
-        <span>THE AI WORKFLOW SHIFT</span>
-        <strong>Move faster while making review calmer and more intentional.</strong>
-      </div>
+      <PopCard index={1}>
+        <div className="closing-headline-card">
+          <span>THE AI WORKFLOW SHIFT</span>
+          <strong>Move faster while making review calmer and more intentional.</strong>
+        </div>
+      </PopCard>
       <div className="compact-flow" aria-label="Worktree workflow">
-        <div>
-          <span>01</span>
-          <strong>Explore sooner</strong>
-          <p>Start an agent task without resetting your own work.</p>
-        </div>
-        <i />
-        <div>
-          <span>02</span>
-          <strong>Guide clearly</strong>
-          <p>Each prompt gets a branch, folder, and goal.</p>
-        </div>
-        <i />
-        <div>
-          <span>03</span>
-          <strong>Review confidently</strong>
-          <p>Keep what helps. Learn from the rest.</p>
-        </div>
+        <PopCard index={2}>
+          <div>
+            <span>01</span>
+            <strong>Explore sooner</strong>
+            <p>Start an agent task without resetting your own work.</p>
+          </div>
+        </PopCard>
+        <Fragment asChild animation="fade-in" index={3}>
+          <i />
+        </Fragment>
+        <PopCard index={3}>
+          <div>
+            <span>02</span>
+            <strong>Guide clearly</strong>
+            <p>Each prompt gets a branch, folder, and goal.</p>
+          </div>
+        </PopCard>
+        <Fragment asChild animation="fade-in" index={4}>
+          <i />
+        </Fragment>
+        <PopCard index={4}>
+          <div>
+            <span>03</span>
+            <strong>Review confidently</strong>
+            <p>Keep what helps. Learn from the rest.</p>
+          </div>
+        </PopCard>
       </div>
-      <div className="closing-efficiency">
-        Efficiency gain: more AI exploration with fewer context resets.
-      </div>
+      <PopCard index={5}>
+        <div className="closing-efficiency">
+          Efficiency gain: more AI exploration with fewer context resets.
+        </div>
+      </PopCard>
     </div>
   );
 }
@@ -514,30 +552,30 @@ function AgentLaneCard({ number, title, text, prompt }) {
 function AgentLaneExamples() {
   return (
     <div className="agent-lane-grid">
-      <Fragment asChild animation="fade-up" index={1}>
+      <PopCard index={1}>
         <AgentLaneCard
           number="01"
           title="One agent writes tests"
           text="Fast win: a test-only lane produces a focused diff with a clear pass/fail signal."
           prompt="Add coverage for monthly, annual, and promo pricing edge cases."
         />
-      </Fragment>
-      <Fragment asChild animation="fade-up" index={2}>
+      </PopCard>
+      <PopCard index={2}>
         <AgentLaneCard
           number="02"
           title="One agent drafts docs"
           text="Keep product language moving while the implementation is still changing."
           prompt="Document the new behavior and call out any assumptions."
         />
-      </Fragment>
-      <Fragment asChild animation="fade-up" index={3}>
+      </PopCard>
+      <PopCard index={3}>
         <AgentLaneCard
           number="03"
           title="One agent investigates a bug"
           text="Let the agent explore in its own lane while you keep shaping the main work."
           prompt="Find why trial pricing fails when the coupon expires."
         />
-      </Fragment>
+      </PopCard>
     </div>
   );
 }
@@ -640,7 +678,7 @@ export function Presentation() {
           lead="Keep your feature open while agents help with tests, bug research, or docs in focused, reviewable worktrees."
         >
           <ParallelLanes />
-          <Fragment asChild animation="fade-up" index={4}>
+          <PopCard index={4}>
             <div className="agent-note">
               <span className="agent-note-label">WHAT CHANGES</span>
               <p>
@@ -648,7 +686,7 @@ export function Presentation() {
                 momentum; the agent returns something you can compare.
               </p>
             </div>
-          </Fragment>
+          </PopCard>
           <p className="fine-print">
             The value is not more generated code. The value is faster help in a shape your team can review.
           </p>
@@ -669,12 +707,16 @@ export function Presentation() {
           lead="VS Code and IntelliJ IDEA surface worktrees so agent tasks can start quickly and return as focused diffs."
         >
           <div className="ide-mockup-grid">
-            <IDEMockup name="VS Code" eyebrow="SOURCE CONTROL" note="Demo path">
-              <SourceControlPanel compact />
-            </IDEMockup>
-            <IDEMockup name="IntelliJ IDEA" eyebrow="GIT TOOL WINDOW" note="Same primitive">
-              <IntelliJPanel />
-            </IDEMockup>
+            <PopCard index={1}>
+              <IDEMockup name="VS Code" eyebrow="SOURCE CONTROL" note="Demo path">
+                <SourceControlPanel compact />
+              </IDEMockup>
+            </PopCard>
+            <PopCard index={2}>
+              <IDEMockup name="IntelliJ IDEA" eyebrow="GIT TOOL WINDOW" note="Same primitive">
+                <IntelliJPanel />
+              </IDEMockup>
+            </PopCard>
           </div>
         </SlideFrame>
         <aside className="notes">
