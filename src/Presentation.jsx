@@ -467,6 +467,39 @@ function Takeaway({ number, title, text }) {
   );
 }
 
+function CompactClosing() {
+  return (
+    <div className="compact-closing">
+      <div className="closing-headline-card">
+        <span>THE WORKFLOW SHIFT</span>
+        <strong>Keep your main context intact while focused work happens in parallel.</strong>
+      </div>
+      <div className="compact-flow" aria-label="Worktree workflow">
+        <div>
+          <span>01</span>
+          <strong>Stay in flow</strong>
+          <p>Your current workspace remains open.</p>
+        </div>
+        <i />
+        <div>
+          <span>02</span>
+          <strong>Delegate safely</strong>
+          <p>Agents work in isolated lanes.</p>
+        </div>
+        <i />
+        <div>
+          <span>03</span>
+          <strong>Review cleanly</strong>
+          <p>Each lane produces one focused diff.</p>
+        </div>
+      </div>
+      <div className="closing-efficiency">
+        Efficiency gain: fewer resets, clearer delegation, cleaner merges.
+      </div>
+    </div>
+  );
+}
+
 function AgentLaneCard({ number, title, text, prompt }) {
   return (
     <div className="agent-lane-card">
@@ -689,23 +722,16 @@ export function Presentation() {
         <SlideFrame
           number={7}
           eyebrow="THE TAKEAWAY"
-          title={<>Clean lanes.<br /><span className="title-accent">Confident merges.</span></>}
-          lead="Worktrees turn AI-assisted tasks into clean, reviewable units of work."
+          title={<>One repo.<br /><span className="title-accent">Multiple clean lanes.</span></>}
+          lead="The problem is not branching. It is one workspace trying to hold every feature, fix, experiment, and agent task."
           className="closing-slide"
         >
-          <div className="takeaway-grid">
-            <Takeaway number="01" title="Delegate clearly" text="One agent task per branch and folder." />
-            <Takeaway number="02" title="Compare easily" text="Every lane produces a focused diff." />
-            <Takeaway number="03" title="Merge selectively" text="Only promote the work that helps." />
-          </div>
-          <CodeInset title="AGENT WORKFLOW" className="closing-code">
-            {`task -> worktree -> agent -> review -> merge`}
-          </CodeInset>
+          <CompactClosing />
         </SlideFrame>
         <aside className="notes">
           <strong>4:30-5:00</strong><br />
-          Final line: worktrees make agent-assisted development feel less like a pile of generated code
-          and more like a set of clean, reviewable work units.
+          Final line: worktrees help teams keep momentum while humans and agents work in separate,
+          reviewable lanes.
         </aside>
       </Slide>
       </Deck>
