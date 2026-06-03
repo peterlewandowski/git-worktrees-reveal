@@ -412,15 +412,15 @@ function DemoCue() {
         <span className="demo-line" />
         <span className="demo-dot demo-dot--end" />
       </div>
-      <h2>Open an agent lane<br />in VS Code.</h2>
-      <p>Invite Copilot into a focused workspace, then review one clear diff.</p>
+      <h2>Let Copilot start<br />the worktree lane.</h2>
+      <p>Ask Copilot to create the focused worktree, open the lane, and begin with a reviewable task.</p>
       <div className="demo-checklist">
         <PopCard index={1}>
-          <span><b>01</b> Create lane</span>
+          <span><b>01</b> Ask Copilot</span>
         </PopCard>
         <Chevron />
         <PopCard index={2}>
-          <span><b>02</b> Copilot Chat</span>
+          <span><b>02</b> Worktree lane</span>
         </PopCard>
         <Chevron />
         <PopCard index={3}>
@@ -497,7 +497,7 @@ function CompactClosing() {
       <PopCard index={1}>
         <div className="closing-headline-card">
           <span>THE AI WORKFLOW SHIFT</span>
-          <strong>Move faster while making review calmer and more intentional.</strong>
+          <strong>Give every agentic task room to move without losing the thread.</strong>
         </div>
       </PopCard>
       <div className="compact-flow" aria-label="Worktree workflow">
@@ -531,7 +531,7 @@ function CompactClosing() {
       </div>
       <PopCard index={5}>
         <div className="closing-efficiency">
-          Efficiency gain: more AI exploration with fewer context resets.
+          Guided prompts. Focused diffs. Selective merges.
         </div>
       </PopCard>
     </div>
@@ -733,11 +733,11 @@ export function Presentation() {
         <DemoCue />
         <aside className="notes">
           <strong>2:15-3:45 - LIVE DEMO</strong><br />
-          1. In VS Code Source Control, create a worktree for an agent-sized task.<br />
-          2. Open the new worktree in a second VS Code window.<br />
-          3. Use Copilot Chat in that window as the agent lane.<br />
-          4. Ask for a small focused change, such as tests or docs.<br />
-          5. Review the focused diff and show the original workspace stayed undisturbed.<br /><br />
+          1. In VS Code, ask Copilot to create a worktree for a focused task.<br />
+          2. Open or switch into the new worktree lane.<br />
+          3. Let Copilot begin a small, reviewable change such as tests or docs.<br />
+          4. Show the original workspace remains undisturbed.<br />
+          5. Review the focused diff from the new lane.<br /><br />
           CLI fallback: git worktree add -b demo/agent-tests ../agent-tests main
         </aside>
       </Slide>
@@ -753,8 +753,8 @@ export function Presentation() {
         </SlideFrame>
         <aside className="notes">
           <strong>3:45-4:30</strong><br />
-          These are the strongest examples from the review: tests, docs, and bug investigation. They
-          are scoped, useful, and easy to review. Some Copilot workflows can also create isolated
+          Reveal these one at a time with the right-arrow key: tests, docs, and bug investigation.
+          They are scoped, useful, and easy to review. Some Copilot workflows can also create isolated
           worktrees automatically.<br /><br />
           Source: <a href={SOURCE_LINKS.agents}>{SOURCE_LINKS.agents}</a>
         </aside>
@@ -764,8 +764,8 @@ export function Presentation() {
         <SlideFrame
           number={7}
           eyebrow="THE TAKEAWAY"
-          title={<>Agentic work.<br /><span className="title-accent">Reviewable possibilities.</span></>}
-          lead="Worktrees turn AI speed into team-friendly flow: guided prompts, focused diffs, and selective merges."
+          title={<>Agentic Development.<br /><span className="title-accent">Parallel possibilities.</span></>}
+          lead="More lane separation + Less context switching = Efficiency and Speed"
           className="closing-slide"
         >
           <CompactClosing />
