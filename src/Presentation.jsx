@@ -7,6 +7,7 @@ import 'reveal.js/reveal.css';
 const SOURCE_LINKS = {
   git: 'https://git-scm.com/docs/git-worktree',
   vscode: 'https://code.visualstudio.com/docs/sourcecontrol/branches-worktrees',
+  intellij: 'https://www.jetbrains.com/help/idea/use-git-worktrees.html',
   agents: 'https://code.visualstudio.com/docs/copilot/agents/background-agents',
 };
 
@@ -188,6 +189,63 @@ function WorktreeMap() {
   );
 }
 
+function WorkspaceDesk({ label, branch, path, tone = 'blue' }) {
+  return (
+    <div className={`workspace-desk workspace-desk--${tone}`}>
+      <div className="desk-screen">
+        <span />
+        <span />
+        <span />
+      </div>
+      <div className="desk-copy">
+        <span>{label}</span>
+        <strong>{branch}</strong>
+        <code>{path}</code>
+      </div>
+    </div>
+  );
+}
+
+function BranchVsWorktree() {
+  return (
+    <div className="branch-compare">
+      <div className="compare-card compare-card--branches">
+        <div className="compare-heading">
+          <span>BRANCHES</span>
+          <strong>Name the work</strong>
+        </div>
+        <div className="branch-pointer-map" aria-label="Several branches leading to one active workspace">
+          <div className="pointer-lines">
+            <span className="pointer pointer--feature">feature</span>
+            <span className="pointer pointer--main">main</span>
+            <span className="pointer pointer--hotfix">hotfix</span>
+          </div>
+          <div className="pointer-trunk" />
+          <WorkspaceDesk label="ONE CHECKED-OUT DESK" branch="feature" path="./your-repo" tone="navy" />
+        </div>
+        <p>Cheap pointers. Usually one active checkout.</p>
+      </div>
+
+      <div className="compare-plus" aria-hidden="true">+</div>
+
+      <Fragment asChild animation="fade-left" index={1}>
+        <div className="compare-card compare-card--worktrees">
+          <div className="compare-heading">
+            <span>WORKTREES</span>
+            <strong>Give each task a desk</strong>
+          </div>
+          <div className="desk-stack">
+            <WorkspaceDesk label="CURRENT FEATURE" branch="feature" path="./your-repo" tone="navy" />
+            <WorkspaceDesk label="URGENT FIX" branch="hotfix" path="../hotfix" tone="blue" />
+            <WorkspaceDesk label="AGENT TASK" branch="agent-task" path="../agent-task" tone="accent" />
+          </div>
+          <p>Same repo. Separate files, index, and <code>HEAD</code>.</p>
+        </div>
+      </Fragment>
+    </div>
+  );
+}
+
 function CodeInset({ children, title = 'TERMINAL', className = '' }) {
   return (
     <div className={`code-inset ${className}`}>
@@ -206,9 +264,9 @@ function Chevron() {
   return <span className="chevron" aria-hidden="true">›</span>;
 }
 
-function SourceControlPanel() {
+function SourceControlPanel({ compact = false }) {
   return (
-    <div className="vscode-window">
+    <div className={`vscode-window ${compact ? 'ide-window--compact' : ''}`}>
       <div className="vscode-titlebar">
         <span className="traffic-lights"><i /><i /><i /></span>
         <strong>your-repo</strong>
@@ -265,6 +323,68 @@ function SourceControlPanel() {
   );
 }
 
+function IntelliJPanel() {
+  return (
+    <div className="intellij-window ide-window--compact">
+      <div className="intellij-titlebar">
+        <span className="traffic-lights"><i /><i /><i /></span>
+        <strong>your-repo</strong>
+        <span>IntelliJ IDEA</span>
+      </div>
+      <div className="intellij-content">
+        <div className="intellij-sidebar">
+          <span className="jetbrains-icon jetbrains-icon--active">G</span>
+          <span className="jetbrains-icon">P</span>
+          <span className="jetbrains-icon">T</span>
+        </div>
+        <div className="intellij-git-panel">
+          <div className="intellij-panel-heading">
+            <strong>GIT</strong>
+            <span>•••</span>
+          </div>
+          <div className="intellij-row"><Chevron /><strong>Log</strong></div>
+          <div className="intellij-row"><Chevron /><strong>Console</strong></div>
+          <div className="intellij-row intellij-row--active"><Chevron /><strong>Worktrees</strong></div>
+          <div className="intellij-worktree"><span>⑂</span> your-repo <small>feature</small></div>
+          <Fragment asChild animation="fade-up" index={1}>
+            <div className="intellij-menu">
+              <div className="intellij-menu-title"><span>⑂</span> Worktrees</div>
+              <div className="intellij-menu-item intellij-menu-item--active">＋ New Worktree...</div>
+              <div className="intellij-menu-item">↗ Open in New Window</div>
+              <div className="intellij-menu-item">− Remove Worktree</div>
+            </div>
+          </Fragment>
+        </div>
+        <div className="intellij-editor">
+          <div className="intellij-tab">PaymentService.kt <span>×</span></div>
+          <div className="intellij-lines">
+            <span><i>1</i><b>class</b> PaymentService &#123;</span>
+            <span><i>2</i>&nbsp;&nbsp;<b>fun</b> submit() &#123;</span>
+            <span><i>3</i>&nbsp;&nbsp;&nbsp;&nbsp;gateway.send()</span>
+            <span><i>4</i>&nbsp;&nbsp;&#125;</span>
+            <span><i>5</i>&#125;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function IDEMockup({ name, eyebrow, note, children }) {
+  return (
+    <div className="ide-mockup">
+      <div className="ide-mockup-heading">
+        <div>
+          <span>{eyebrow}</span>
+          <strong>{name}</strong>
+        </div>
+        <small>{note}</small>
+      </div>
+      {children}
+    </div>
+  );
+}
+
 function DemoCue() {
   return (
     <div className="demo-cue">
@@ -274,12 +394,12 @@ function DemoCue() {
         <span className="demo-line" />
         <span className="demo-dot demo-dot--end" />
       </div>
-      <h2>Give the next task<br />its own lane.</h2>
-      <p>Create a worktree. Open it. Let Copilot Chat work there.</p>
+      <h2>Open an agent lane<br />in VS Code.</h2>
+      <p>Create a worktree. Open a second window. Let Copilot Chat work there.</p>
       <div className="demo-checklist">
         <span><b>01</b> Source Control</span>
         <Chevron />
-        <span><b>02</b> Create Worktree</span>
+        <span><b>02</b> Agent Worktree</span>
         <Chevron />
         <span><b>03</b> Open + Chat</span>
       </div>
@@ -291,25 +411,25 @@ const LANE_DATA = [
   {
     role: 'YOU',
     title: 'Current feature',
-    branch: 'feature/payment-flow',
+    branch: 'feature/pricing',
     path: './your-repo',
     status: 'Focused',
     tone: 'navy',
   },
   {
-    role: 'YOU',
-    title: 'Urgent fix',
-    branch: 'hotfix/receipt',
-    path: '../receipt-fix',
-    status: 'Isolated',
+    role: 'AGENT',
+    title: 'Test lane',
+    branch: 'agent/pricing-tests',
+    path: '../pricing-tests',
+    status: 'Review',
     tone: 'blue',
   },
   {
     role: 'AGENT',
-    title: 'Background task',
-    branch: 'agent/add-tests',
-    path: '../agent-add-tests',
-    status: 'Review when ready',
+    title: 'Docs lane',
+    branch: 'agent/pricing-docs',
+    path: '../pricing-docs',
+    status: 'Draft',
     tone: 'accent',
   },
 ];
@@ -343,6 +463,81 @@ function Takeaway({ number, title, text }) {
       <span>{number}</span>
       <strong>{title}</strong>
       <p>{text}</p>
+    </div>
+  );
+}
+
+function CompactClosing() {
+  return (
+    <div className="compact-closing">
+      <div className="closing-headline-card">
+        <span>THE WORKFLOW SHIFT</span>
+        <strong>Keep your main context intact while focused work happens in parallel.</strong>
+      </div>
+      <div className="compact-flow" aria-label="Worktree workflow">
+        <div>
+          <span>01</span>
+          <strong>Stay in flow</strong>
+          <p>Your current workspace remains open.</p>
+        </div>
+        <i />
+        <div>
+          <span>02</span>
+          <strong>Delegate safely</strong>
+          <p>Agents work in isolated lanes.</p>
+        </div>
+        <i />
+        <div>
+          <span>03</span>
+          <strong>Review cleanly</strong>
+          <p>Each lane produces one focused diff.</p>
+        </div>
+      </div>
+      <div className="closing-efficiency">
+        Efficiency gain: fewer resets, clearer delegation, cleaner merges.
+      </div>
+    </div>
+  );
+}
+
+function AgentLaneCard({ number, title, text, prompt }) {
+  return (
+    <div className="agent-lane-card">
+      <span>{number}</span>
+      <strong>{title}</strong>
+      <p>{text}</p>
+      <code>{prompt}</code>
+    </div>
+  );
+}
+
+function AgentLaneExamples() {
+  return (
+    <div className="agent-lane-grid">
+      <Fragment asChild animation="fade-up" index={1}>
+        <AgentLaneCard
+          number="01"
+          title="One agent writes tests"
+          text="Give an agent a test-only lane. Its output is easy to review because the diff has one purpose."
+          prompt="Add coverage for monthly, annual, and promo pricing edge cases."
+        />
+      </Fragment>
+      <Fragment asChild animation="fade-up" index={2}>
+        <AgentLaneCard
+          number="02"
+          title="One agent drafts docs"
+          text="Keep docs and product language in a separate lane until you know which implementation survives."
+          prompt="Document the new behavior and call out any assumptions."
+        />
+      </Fragment>
+      <Fragment asChild animation="fade-up" index={3}>
+        <AgentLaneCard
+          number="03"
+          title="One agent investigates a bug"
+          text="Let the agent explore logs, add notes, or try a fix without interrupting the branch you are shaping."
+          prompt="Find why trial pricing fails when the coupon expires."
+        />
+      </Fragment>
     </div>
   );
 }
@@ -402,41 +597,38 @@ export function Presentation() {
       <Slide data-timing="20">
         <SlideFrame
           number={1}
-          eyebrow="GIT WORKTREES"
-          title={<>One repo.<br /><span className="title-accent">More room to work.</span></>}
-          lead="Keep your current task exactly where it is. Give the next task a workspace of its own."
+          eyebrow="AI + GIT WORKTREES"
+          title={<>One repo.<br /><span className="title-accent">Multiple possibilities.</span></>}
+          lead="Less branch juggling. More AI-powered development."
           className="intro-slide"
         >
           <BranchNetwork />
         </SlideFrame>
         <aside className="notes">
           <strong>0:00-0:20</strong><br />
-          We have all had the moment: you are halfway through one task and another one arrives.
-          A worktree lets that second task have its own workspace without disturbing the first.
-          Today: the Git primitive, the VS Code workflow, and why this matters even more with agents.
+          The opening: one repository can support multiple active AI-assisted tasks without forcing us
+          to constantly stash, checkout, and rebuild context. This version is about how worktrees make
+          AI-powered development more practical.
         </aside>
       </Slide>
 
       <Slide data-timing="35">
         <SlideFrame
           number={2}
-          eyebrow="THE PROBLEM"
-          title="The branch is cheap. The interruption is not."
-          lead="One working directory means every urgent task borrows the desk you were already using."
+          eyebrow="THE SHIFT"
+          title="Worktrees enable truly agent-assisted development."
+          lead="Branches name the work. Worktrees give humans and agents separate places to do it."
         >
-          <InterruptionFlow />
-          <Fragment asChild animation="fade-up" index={5}>
-            <div className="clone-note">
-              <strong>Could we clone again?</strong>
-              <span>Yes. It works. It also adds another repo to manage.</span>
-            </div>
-          </Fragment>
+          <BranchVsWorktree />
+          <div className="agent-thesis">
+            <strong>Productivity gain:</strong>
+            <span>multiple focused tasks, clean context, reviewable diffs.</span>
+          </div>
         </SlideFrame>
         <aside className="notes">
           <strong>0:20-0:55</strong><br />
-          Branches themselves are inexpensive. The real tax is context switching in a single working
-          directory. Stash, checkout, rebuild, and then later reconstruct your mental state. Another
-          clone is a valid escape hatch, but it creates extra setup and duplicated repository data.
+          Keep this short. Branches are the unit of work. Worktrees are the working directories that let
+          those units happen at the same time. That is the unlock for agent workflows.
         </aside>
       </Slide>
 
@@ -444,36 +636,27 @@ export function Presentation() {
         <SlideFrame
           number={3}
           eyebrow="THE MENTAL MODEL"
-          title="A worktree gives each task its own workspace."
-          lead="Separate working directories and branches. Shared repository data underneath."
+          title="Parallel workflow becomes a practical habit."
+          lead="Use worktrees for human context switching today. Use isolated workspaces for agent tasks as the workflow grows."
         >
-          <div className="model-grid">
-            <WorktreeMap />
-            <div className="model-explanation">
-              <div className="model-point">
-                <span>01</span>
-                <p><strong>Share the repository.</strong><br />Reuse Git objects and refs.</p>
-              </div>
-              <div className="model-point">
-                <span>02</span>
-                <p><strong>Separate the workspace.</strong><br />Each worktree has its own files, index, and <code>HEAD</code>.</p>
-              </div>
-              <CodeInset>
-                {`git worktree add -b hotfix ../hotfix main
-git worktree list
-git worktree remove ../hotfix`}
-              </CodeInset>
+          <ParallelLanes />
+          <Fragment asChild animation="fade-up" index={4}>
+            <div className="agent-note">
+              <span className="agent-note-label">WHAT CHANGES</span>
+              <p>
+                Your active feature stays open while each agent-sized task gets a scoped branch,
+                folder, prompt, and review point.
+              </p>
             </div>
-          </div>
+          </Fragment>
           <p className="fine-print">
-            Guardrail: a branch generally cannot be checked out in multiple worktrees at the same time.
+            The value is not more generated code. The value is cleaner parallel work.
           </p>
         </SlideFrame>
         <aside className="notes">
           <strong>0:55-1:40</strong><br />
-          This is the whole mental model: one repository, more than one checked-out workspace.
-          Linked worktrees share repository data while keeping per-worktree state such as HEAD and the
-          index separate. A branch is generally checked out in one worktree at a time.<br /><br />
+          This slide is the core story: worktrees turn parallel AI help into practical review lanes.
+          The human feature stays open, and agent tasks happen in scoped branches and folders.<br /><br />
           Source: <a href={SOURCE_LINKS.git}>{SOURCE_LINKS.git}</a>
         </aside>
       </Slide>
@@ -482,42 +665,25 @@ git worktree remove ../hotfix`}
         <SlideFrame
           number={4}
           eyebrow="THE WORKFLOW"
-          title="VS Code makes the workflow approachable."
-          lead="The Source Control view exposes worktrees while the familiar Git commands stay underneath."
+          title="Your IDE is already worktree-enabled."
+          lead="VS Code and IntelliJ IDEA both surface worktrees. Our demo will use VS Code."
         >
-          <div className="vscode-layout">
-            <SourceControlPanel />
-            <div className="vscode-actions">
-              <Fragment asChild animation="fade-left" index={2}>
-                <div className="action-card">
-                  <span>01</span>
-                  <strong>Create</strong>
-                  <p>Choose a branch and folder.</p>
-                </div>
-              </Fragment>
-              <Fragment asChild animation="fade-left" index={3}>
-                <div className="action-card">
-                  <span>02</span>
-                  <strong>Open</strong>
-                  <p>Work in another window.</p>
-                </div>
-              </Fragment>
-              <Fragment asChild animation="fade-left" index={4}>
-                <div className="action-card">
-                  <span>03</span>
-                  <strong>Compare</strong>
-                  <p>Review before merging.</p>
-                </div>
-              </Fragment>
-            </div>
+          <div className="ide-mockup-grid">
+            <IDEMockup name="VS Code" eyebrow="SOURCE CONTROL" note="Demo path">
+              <SourceControlPanel compact />
+            </IDEMockup>
+            <IDEMockup name="IntelliJ IDEA" eyebrow="GIT TOOL WINDOW" note="Same primitive">
+              <IntelliJPanel />
+            </IDEMockup>
           </div>
         </SlideFrame>
         <aside className="notes">
           <strong>1:40-2:15</strong><br />
-          VS Code now exposes worktrees from Source Control: create a worktree, open it in a new window,
-          compare changes, and migrate changes if needed. The UI makes the primitive more discoverable,
-          and the CLI remains available underneath.<br /><br />
-          Source: <a href={SOURCE_LINKS.vscode}>{SOURCE_LINKS.vscode}</a>
+          The point: this is IDE-supported, not just a CLI trick. VS Code and IntelliJ IDEA both expose
+          worktrees in source control tooling. The demo is VS Code because it is the current path, but
+          the mental model transfers.<br /><br />
+          Sources: <a href={SOURCE_LINKS.vscode}>{SOURCE_LINKS.vscode}</a><br />
+          <a href={SOURCE_LINKS.intellij}>{SOURCE_LINKS.intellij}</a>
         </aside>
       </Slide>
 
@@ -525,12 +691,12 @@ git worktree remove ../hotfix`}
         <DemoCue />
         <aside className="notes">
           <strong>2:15-3:45 - LIVE DEMO</strong><br />
-          1. In the current repo, open Source Control and choose Worktrees &gt; Create Worktree.<br />
-          2. Create a branch such as demo/copilot-note in a sibling folder.<br />
-          3. Open the new worktree in a second VS Code window.<br />
-          4. Ask Copilot Chat for a small focused change.<br />
+          1. In VS Code Source Control, create a worktree for an agent-sized task.<br />
+          2. Open the new worktree in a second VS Code window.<br />
+          3. Use Copilot Chat in that window as the agent lane.<br />
+          4. Ask for a small focused change, such as tests or docs.<br />
           5. Show the original window: its working files remain undisturbed.<br /><br />
-          CLI fallback: git worktree add -b demo/copilot-note ../copilot-note main
+          CLI fallback: git worktree add -b demo/agent-tests ../agent-tests main
         </aside>
       </Slide>
 
@@ -538,26 +704,16 @@ git worktree remove ../hotfix`}
         <SlideFrame
           number={6}
           eyebrow="THE AGENT ERA"
-          title="Parallel work becomes a practical habit."
-          lead="Use worktrees for human context switching today. Use isolated workspaces for agent tasks as the workflow grows."
+          title="Three agent lanes worth trying."
+          lead="The best use cases have clear scope and easy review."
         >
-          <ParallelLanes />
-          <Fragment asChild animation="fade-up" index={4}>
-            <div className="agent-note">
-              <span className="agent-note-label">NEXT STEP</span>
-              <p>
-                Copilot CLI background sessions in VS Code can create isolated worktrees automatically.
-                Review the result, then choose what to merge.
-              </p>
-            </div>
-          </Fragment>
+          <AgentLaneExamples />
         </SlideFrame>
         <aside className="notes">
           <strong>3:45-4:30</strong><br />
-          The manual workflow already helps with interruptions. It also gives agent tasks a clean
-          boundary: each task has its own workspace, branch, and review point. Separately, current
-          Copilot CLI background sessions in VS Code can use worktree isolation automatically. That is
-          one product workflow, not a claim that every coding agent automatically uses worktrees.<br /><br />
+          These are the strongest examples from the review: tests, docs, and bug investigation. They
+          are scoped, useful, and easy to review. Some Copilot workflows can also create isolated
+          worktrees automatically.<br /><br />
           Source: <a href={SOURCE_LINKS.agents}>{SOURCE_LINKS.agents}</a>
         </aside>
       </Slide>
@@ -566,26 +722,16 @@ git worktree remove ../hotfix`}
         <SlideFrame
           number={7}
           eyebrow="THE TAKEAWAY"
-          title={<>Stop switching.<br /><span className="title-accent">Add a workspace.</span></>}
-          lead="One small Git primitive makes concurrent work easier to start, easier to review, and easier to reason about."
+          title={<>One repo.<br /><span className="title-accent">Multiple clean lanes.</span></>}
+          lead="The problem is not branching. It is one workspace trying to hold every feature, fix, experiment, and agent task."
           className="closing-slide"
         >
-          <div className="takeaway-grid">
-            <Takeaway number="01" title="Preserve context" text="Leave your current task exactly where it is." />
-            <Takeaway number="02" title="Isolate work" text="Give each concurrent task its own lane." />
-            <Takeaway number="03" title="Review deliberately" text="Choose what to merge when the work is ready." />
-          </div>
-          <CodeInset title="REMEMBER THESE THREE" className="closing-code">
-            {`git worktree add
-git worktree list
-git worktree remove`}
-          </CodeInset>
+          <CompactClosing />
         </SlideFrame>
         <aside className="notes">
           <strong>4:30-5:00</strong><br />
-          Three things to remember: preserve context, isolate concurrent work, and review deliberately.
-          The CLI is small: add, list, remove. VS Code makes it approachable. Agents make the primitive
-          increasingly useful. Thank you.
+          Final line: worktrees help teams keep momentum while humans and agents work in separate,
+          reviewable lanes.
         </aside>
       </Slide>
       </Deck>
