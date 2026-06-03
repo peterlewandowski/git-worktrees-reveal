@@ -636,7 +636,7 @@ export function Presentation() {
         <SlideFrame
           number={1}
           eyebrow="AGENTIC ENGINEERING"
-          title={<>One repo.<br /><span className="title-accent">Many helpful AI lanes.</span></>}
+          title={<>One Repository.<br /><span className="title-accent">Multiple Agentic Work Lanes.</span></>}
           lead="Worktrees help AI-assisted teams move faster by giving every task a focused, reviewable lane."
           className="intro-slide"
         >
