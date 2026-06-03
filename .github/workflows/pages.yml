@@ -14,6 +14,7 @@ on:
       - codex/ver9-agentic-ai
       - codex/ver10-agentic-work-lanes
       - codex/ver11-copilot-worktree-lanes
+      - codex/ver12-task-separation
   workflow_dispatch:
 
 permissions:
@@ -95,6 +96,12 @@ jobs:
           ref: codex/ver11-copilot-worktree-lanes
           path: ver11-copilot-worktree-lanes
 
+      - name: Check out task separation presentation
+        uses: actions/checkout@v4
+        with:
+          ref: codex/ver12-task-separation
+          path: ver12-task-separation
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -112,6 +119,7 @@ jobs:
             ver9-agentic-ai/package-lock.json
             ver10-agentic-work-lanes/package-lock.json
             ver11-copilot-worktree-lanes/package-lock.json
+            ver12-task-separation/package-lock.json
 
       - name: Install main presentation dependencies
         run: npm ci
@@ -201,9 +209,17 @@ jobs:
         run: npm run build
         working-directory: ver11-copilot-worktree-lanes
 
+      - name: Install task separation presentation dependencies
+        run: npm ci
+        working-directory: ver12-task-separation
+
+      - name: Build task separation presentation
+        run: npm run build
+        working-directory: ver12-task-separation
+
       - name: Compose Pages site
         run: |
-          mkdir -p site/ver1 site/ver2 site/ver3 site/ver4 site/ver5 site/ver6 site/ver7 site/ver8 site/ver9 site/ver10 site/ver11 site/human-visual-refresh
+          mkdir -p site/ver1 site/ver2 site/ver3 site/ver4 site/ver5 site/ver6 site/ver7 site/ver8 site/ver9 site/ver10 site/ver11 site/ver12 site/human-visual-refresh
           cp -R main-deck/dist/. site/
           cp -R main-deck/dist/. site/ver1/
           cp -R human-visual-refresh/dist/. site/ver2/
@@ -216,6 +232,7 @@ jobs:
           cp -R ver9-agentic-ai/dist/. site/ver9/
           cp -R ver10-agentic-work-lanes/dist/. site/ver10/
           cp -R ver11-copilot-worktree-lanes/dist/. site/ver11/
+          cp -R ver12-task-separation/dist/. site/ver12/
           cp -R human-visual-refresh/dist/. site/human-visual-refresh/
 
       - name: Configure Pages
