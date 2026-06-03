@@ -9,7 +9,42 @@ const SOURCE_LINKS = {
   vscode: 'https://code.visualstudio.com/docs/sourcecontrol/branches-worktrees',
   intellij: 'https://www.jetbrains.com/help/idea/use-git-worktrees.html',
   agents: 'https://code.visualstudio.com/docs/copilot/agents/background-agents',
+  copilotCli: 'https://code.visualstudio.com/docs/agents/agent-types/copilot-cli',
+  copilotCodingAgent: 'https://docs.github.com/en/copilot/using-github-copilot/coding-agent',
 };
+
+const RESOURCE_LINKS = [
+  {
+    label: 'Git',
+    title: 'git worktree',
+    text: 'The official reference for linked working trees, commands, and constraints.',
+    href: SOURCE_LINKS.git,
+  },
+  {
+    label: 'VS Code',
+    title: 'Branches and worktrees',
+    text: 'IDE workflow for branches, worktrees, source control, and opening folders.',
+    href: SOURCE_LINKS.vscode,
+  },
+  {
+    label: 'IntelliJ IDEA',
+    title: 'Use Git worktrees',
+    text: 'JetBrains workflow for creating, opening, and managing Git worktrees.',
+    href: SOURCE_LINKS.intellij,
+  },
+  {
+    label: 'VS Code Copilot',
+    title: 'Copilot CLI sessions',
+    text: 'Background Copilot sessions and agent workflows from VS Code docs.',
+    href: SOURCE_LINKS.copilotCli,
+  },
+  {
+    label: 'GitHub Copilot',
+    title: 'Coding agent',
+    text: 'Official docs for delegating tasks, tracking sessions, and reviewing PRs.',
+    href: SOURCE_LINKS.copilotCodingAgent,
+  },
+];
 
 function getInitialTheme() {
   return new URLSearchParams(window.location.search).get('theme') === 'dark'
@@ -580,6 +615,29 @@ function AgentLaneExamples() {
   );
 }
 
+function ResourceCard({ resource, index }) {
+  return (
+    <PopCard index={index}>
+      <a className="resource-card" href={resource.href}>
+        <span>{resource.label}</span>
+        <strong>{resource.title}</strong>
+        <p>{resource.text}</p>
+        <small>{resource.href.replace(/^https?:\/\//, '')}</small>
+      </a>
+    </PopCard>
+  );
+}
+
+function ResourceLinks() {
+  return (
+    <div className="resources-grid">
+      {RESOURCE_LINKS.map((resource, index) => (
+        <ResourceCard key={resource.href} resource={resource} index={index + 1} />
+      ))}
+    </div>
+  );
+}
+
 export function Presentation() {
   const [theme, setTheme] = useState(getInitialTheme);
   const toggleTheme = useCallback(() => {
@@ -774,6 +832,26 @@ export function Presentation() {
           <strong>4:30-5:00</strong><br />
           Final line: worktrees help teams keep momentum while humans and agents work in separate,
           reviewable lanes.
+        </aside>
+      </Slide>
+
+      <Slide data-timing="0">
+        <SlideFrame
+          number={8}
+          eyebrow="OFFICIAL RESOURCES"
+          title={<>Common links for<br /><span className="title-accent">agentic worktrees.</span></>}
+          lead="A short list of official references for Git worktrees, Copilot agent workflows, and IDE support."
+          className="resources-slide"
+        >
+          <ResourceLinks />
+        </SlideFrame>
+        <aside className="notes">
+          Official sources only:<br />
+          Git worktree docs: <a href={SOURCE_LINKS.git}>{SOURCE_LINKS.git}</a><br />
+          VS Code worktrees: <a href={SOURCE_LINKS.vscode}>{SOURCE_LINKS.vscode}</a><br />
+          IntelliJ worktrees: <a href={SOURCE_LINKS.intellij}>{SOURCE_LINKS.intellij}</a><br />
+          VS Code Copilot CLI sessions: <a href={SOURCE_LINKS.copilotCli}>{SOURCE_LINKS.copilotCli}</a><br />
+          GitHub Copilot coding agent: <a href={SOURCE_LINKS.copilotCodingAgent}>{SOURCE_LINKS.copilotCodingAgent}</a>
         </aside>
       </Slide>
       </Deck>
