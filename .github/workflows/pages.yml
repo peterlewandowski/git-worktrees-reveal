@@ -6,6 +6,9 @@ on:
       - main
       - codex/human-visual-refresh
       - codex/ver3-ide-mockups
+      - codex/ver4-ai-copilot-worktrees
+      - codex/ver5-agent-swarm-worktrees
+      - codex/ver6-review-lab-worktrees
   workflow_dispatch:
 
 permissions:
@@ -39,6 +42,24 @@ jobs:
           ref: codex/ver3-ide-mockups
           path: ver3-ide-mockups
 
+      - name: Check out AI productivity presentation
+        uses: actions/checkout@v4
+        with:
+          ref: codex/ver4-ai-copilot-worktrees
+          path: ver4-ai-copilot-worktrees
+
+      - name: Check out agent lanes presentation
+        uses: actions/checkout@v4
+        with:
+          ref: codex/ver5-agent-swarm-worktrees
+          path: ver5-agent-swarm-worktrees
+
+      - name: Check out review lab presentation
+        uses: actions/checkout@v4
+        with:
+          ref: codex/ver6-review-lab-worktrees
+          path: ver6-review-lab-worktrees
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -48,6 +69,9 @@ jobs:
             main-deck/package-lock.json
             human-visual-refresh/package-lock.json
             ver3-ide-mockups/package-lock.json
+            ver4-ai-copilot-worktrees/package-lock.json
+            ver5-agent-swarm-worktrees/package-lock.json
+            ver6-review-lab-worktrees/package-lock.json
 
       - name: Install main presentation dependencies
         run: npm ci
@@ -73,13 +97,40 @@ jobs:
         run: npm run build
         working-directory: ver3-ide-mockups
 
+      - name: Install AI productivity dependencies
+        run: npm ci
+        working-directory: ver4-ai-copilot-worktrees
+
+      - name: Build AI productivity presentation
+        run: npm run build
+        working-directory: ver4-ai-copilot-worktrees
+
+      - name: Install agent lanes dependencies
+        run: npm ci
+        working-directory: ver5-agent-swarm-worktrees
+
+      - name: Build agent lanes presentation
+        run: npm run build
+        working-directory: ver5-agent-swarm-worktrees
+
+      - name: Install review lab dependencies
+        run: npm ci
+        working-directory: ver6-review-lab-worktrees
+
+      - name: Build review lab presentation
+        run: npm run build
+        working-directory: ver6-review-lab-worktrees
+
       - name: Compose Pages site
         run: |
-          mkdir -p site/ver1 site/ver2 site/ver3 site/human-visual-refresh
+          mkdir -p site/ver1 site/ver2 site/ver3 site/ver4 site/ver5 site/ver6 site/human-visual-refresh
           cp -R main-deck/dist/. site/
           cp -R main-deck/dist/. site/ver1/
           cp -R human-visual-refresh/dist/. site/ver2/
           cp -R ver3-ide-mockups/dist/. site/ver3/
+          cp -R ver4-ai-copilot-worktrees/dist/. site/ver4/
+          cp -R ver5-agent-swarm-worktrees/dist/. site/ver5/
+          cp -R ver6-review-lab-worktrees/dist/. site/ver6/
           cp -R human-visual-refresh/dist/. site/human-visual-refresh/
 
       - name: Configure Pages
