@@ -42,7 +42,7 @@ function SlideFrame({
   title,
   lead,
   children,
-  footer = 'More room to work',
+  footer = 'AI work lanes',
   className = '',
 }) {
   return (
@@ -59,7 +59,7 @@ function SlideFrame({
       <div className="slide-footer">
         <span>{footer}</span>
         <span className="footer-rule" />
-        <span>git worktree</span>
+        <span>speed • isolation • review</span>
       </div>
     </div>
   );
@@ -91,7 +91,7 @@ function FolderCard({ branch, path, tone = 'primary', meta, className = '' }) {
 
 function BranchNetwork() {
   return (
-    <div className="branch-network" aria-label="One repository branching into three workspaces">
+    <div className="branch-network" aria-label="One repository branching into three AI work lanes">
       <svg viewBox="0 0 1000 390" role="img">
         <path className="branch-trunk" d="M 120 196 H 310" />
         <path className="branch branch--main" d="M 310 196 C 410 196 420 72 545 72 H 885" />
@@ -105,18 +105,18 @@ function BranchNetwork() {
       </svg>
       <div className="branch-origin">
         <RepoBadge />
-        <span>one shared repository</span>
+        <span>one shared codebase</span>
       </div>
       <div className="branch-label branch-label--main">
-        <strong>feature</strong>
+        <strong>you: feature</strong>
         <span>./your-repo</span>
       </div>
       <div className="branch-label branch-label--hotfix">
-        <strong>hotfix</strong>
+        <strong>agent: fix</strong>
         <span>../hotfix</span>
       </div>
       <div className="branch-label branch-label--agent">
-        <strong>agent-task</strong>
+        <strong>agent: tests</strong>
         <span>../agent-task</span>
       </div>
     </div>
@@ -212,7 +212,7 @@ function BranchVsWorktree() {
       <div className="compare-card compare-card--branches">
         <div className="compare-heading">
           <span>BRANCHES</span>
-          <strong>Name the work</strong>
+          <strong>Name the change</strong>
         </div>
         <div className="branch-pointer-map" aria-label="Several branches leading to one active workspace">
           <div className="pointer-lines">
@@ -223,7 +223,7 @@ function BranchVsWorktree() {
           <div className="pointer-trunk" />
           <WorkspaceDesk label="ONE CHECKED-OUT DESK" branch="feature" path="./your-repo" tone="navy" />
         </div>
-        <p>Cheap pointers. Usually one active checkout.</p>
+        <p>Great for history. One checkout can still become the bottleneck.</p>
       </div>
 
       <div className="compare-plus" aria-hidden="true">+</div>
@@ -232,14 +232,14 @@ function BranchVsWorktree() {
         <div className="compare-card compare-card--worktrees">
           <div className="compare-heading">
             <span>WORKTREES</span>
-            <strong>Give each task a desk</strong>
+            <strong>Give each agent a lane</strong>
           </div>
           <div className="desk-stack">
             <WorkspaceDesk label="CURRENT FEATURE" branch="feature" path="./your-repo" tone="navy" />
             <WorkspaceDesk label="URGENT FIX" branch="hotfix" path="../hotfix" tone="blue" />
             <WorkspaceDesk label="AGENT TASK" branch="agent-task" path="../agent-task" tone="accent" />
           </div>
-          <p>Same repo. Separate files, index, and <code>HEAD</code>.</p>
+          <p>Same repo. Separate files, index, and <code>HEAD</code> for focused review.</p>
         </div>
       </Fragment>
     </div>
@@ -315,7 +315,7 @@ function SourceControlPanel({ compact = false }) {
           </div>
           <div className="editor-callout">
             <span className="checkmark">✓</span>
-            Same Git primitive. Less ceremony.
+            Agent lane ready. Review the diff.
           </div>
         </div>
       </div>
@@ -395,13 +395,13 @@ function DemoCue() {
         <span className="demo-dot demo-dot--end" />
       </div>
       <h2>Open an agent lane<br />in VS Code.</h2>
-      <p>Create a worktree. Open a second window. Let Copilot Chat work there.</p>
+      <p>Give Copilot a focused workspace, then review one clean diff.</p>
       <div className="demo-checklist">
-        <span><b>01</b> Source Control</span>
+        <span><b>01</b> Create lane</span>
         <Chevron />
-        <span><b>02</b> Agent Worktree</span>
+        <span><b>02</b> Copilot Chat</span>
         <Chevron />
-        <span><b>03</b> Open + Chat</span>
+        <span><b>03</b> Review diff</span>
       </div>
     </div>
   );
@@ -410,7 +410,7 @@ function DemoCue() {
 const LANE_DATA = [
   {
     role: 'YOU',
-    title: 'Current feature',
+    title: 'Keep shipping',
     branch: 'feature/pricing',
     path: './your-repo',
     status: 'Focused',
@@ -418,7 +418,7 @@ const LANE_DATA = [
   },
   {
     role: 'AGENT',
-    title: 'Test lane',
+    title: 'Generate tests',
     branch: 'agent/pricing-tests',
     path: '../pricing-tests',
     status: 'Review',
@@ -426,10 +426,10 @@ const LANE_DATA = [
   },
   {
     role: 'AGENT',
-    title: 'Docs lane',
-    branch: 'agent/pricing-docs',
-    path: '../pricing-docs',
-    status: 'Draft',
+    title: 'Investigate bug',
+    branch: 'agent/trial-bug',
+    path: '../trial-bug',
+    status: 'Isolated',
     tone: 'accent',
   },
 ];
@@ -471,30 +471,30 @@ function CompactClosing() {
   return (
     <div className="compact-closing">
       <div className="closing-headline-card">
-        <span>THE WORKFLOW SHIFT</span>
-        <strong>Keep your main context intact while focused work happens in parallel.</strong>
+        <span>THE AI WORKFLOW SHIFT</span>
+        <strong>Move faster without turning review into cleanup.</strong>
       </div>
       <div className="compact-flow" aria-label="Worktree workflow">
         <div>
           <span>01</span>
-          <strong>Stay in flow</strong>
-          <p>Your current workspace remains open.</p>
+          <strong>Launch faster</strong>
+          <p>Start an agent task without resetting your own work.</p>
         </div>
         <i />
         <div>
           <span>02</span>
-          <strong>Delegate safely</strong>
-          <p>Agents work in isolated lanes.</p>
+          <strong>Contain output</strong>
+          <p>Each prompt lands in its own branch and folder.</p>
         </div>
         <i />
         <div>
           <span>03</span>
-          <strong>Review cleanly</strong>
-          <p>Each lane produces one focused diff.</p>
+          <strong>Review clearly</strong>
+          <p>Accept the useful lane. Ignore the noisy one.</p>
         </div>
       </div>
       <div className="closing-efficiency">
-        Efficiency gain: fewer resets, clearer delegation, cleaner merges.
+        Efficiency gain: parallel AI work you can actually review.
       </div>
     </div>
   );
@@ -518,7 +518,7 @@ function AgentLaneExamples() {
         <AgentLaneCard
           number="01"
           title="One agent writes tests"
-          text="Give an agent a test-only lane. Its output is easy to review because the diff has one purpose."
+          text="Fast win: a test-only lane produces a focused diff with a clear pass/fail signal."
           prompt="Add coverage for monthly, annual, and promo pricing edge cases."
         />
       </Fragment>
@@ -526,7 +526,7 @@ function AgentLaneExamples() {
         <AgentLaneCard
           number="02"
           title="One agent drafts docs"
-          text="Keep docs and product language in a separate lane until you know which implementation survives."
+          text="Keep product language moving while the implementation is still changing."
           prompt="Document the new behavior and call out any assumptions."
         />
       </Fragment>
@@ -534,7 +534,7 @@ function AgentLaneExamples() {
         <AgentLaneCard
           number="03"
           title="One agent investigates a bug"
-          text="Let the agent explore logs, add notes, or try a fix without interrupting the branch you are shaping."
+          text="Let the agent explore without contaminating the branch you are actively shaping."
           prompt="Find why trial pricing fails when the coupon expires."
         />
       </Fragment>
@@ -597,9 +597,9 @@ export function Presentation() {
       <Slide data-timing="20">
         <SlideFrame
           number={1}
-          eyebrow="AI + GIT WORKTREES"
-          title={<>One repo.<br /><span className="title-accent">Multiple possibilities.</span></>}
-          lead="Less branch juggling. More AI-powered development."
+          eyebrow="AGENTIC ENGINEERING"
+          title={<>One repo.<br /><span className="title-accent">Many AI lanes.</span></>}
+          lead="Worktrees turn AI assistance into parallel, isolated, reviewable engineering work."
           className="intro-slide"
         >
           <BranchNetwork />
@@ -615,14 +615,14 @@ export function Presentation() {
       <Slide data-timing="35">
         <SlideFrame
           number={2}
-          eyebrow="THE SHIFT"
-          title="Worktrees enable truly agent-assisted development."
-          lead="Branches name the work. Worktrees give humans and agents separate places to do it."
+          eyebrow="THE UNLOCK"
+          title="AI can move fast. Review still has to stay clean."
+          lead="Branches name the work. Worktrees give each human or agent task a separate checkout, so speed does not become chaos."
         >
           <BranchVsWorktree />
           <div className="agent-thesis">
-            <strong>Productivity gain:</strong>
-            <span>multiple focused tasks, clean context, reviewable diffs.</span>
+            <strong>Agentic gain:</strong>
+            <span>parallel attempts, contained output, focused diffs.</span>
           </div>
         </SlideFrame>
         <aside className="notes">
@@ -635,22 +635,22 @@ export function Presentation() {
       <Slide data-timing="45">
         <SlideFrame
           number={3}
-          eyebrow="THE MENTAL MODEL"
-          title="Parallel workflow becomes a practical habit."
-          lead="Use worktrees for human context switching today. Use isolated workspaces for agent tasks as the workflow grows."
+          eyebrow="THE OPERATING MODEL"
+          title="Run AI work in lanes, not in your lap."
+          lead="Keep your feature open while agents generate tests, investigate bugs, or draft docs in reviewable worktrees."
         >
           <ParallelLanes />
           <Fragment asChild animation="fade-up" index={4}>
             <div className="agent-note">
               <span className="agent-note-label">WHAT CHANGES</span>
               <p>
-                Your active feature stays open while each agent-sized task gets a scoped branch,
-                folder, prompt, and review point.
+                Each AI task gets a scoped branch, folder, prompt, and review point. You keep
+                momentum; the agent produces something you can inspect.
               </p>
             </div>
           </Fragment>
           <p className="fine-print">
-            The value is not more generated code. The value is cleaner parallel work.
+            The value is not more generated code. The value is faster work that is easier to review.
           </p>
         </SlideFrame>
         <aside className="notes">
@@ -664,9 +664,9 @@ export function Presentation() {
       <Slide data-timing="35">
         <SlideFrame
           number={4}
-          eyebrow="THE WORKFLOW"
-          title="Your IDE is already worktree-enabled."
-          lead="VS Code and IntelliJ IDEA both surface worktrees. Our demo will use VS Code."
+          eyebrow="THE LAUNCHPAD"
+          title="Your IDE can launch reviewable AI lanes."
+          lead="VS Code and IntelliJ IDEA surface worktrees so agent tasks can start quickly and return as scoped diffs."
         >
           <div className="ide-mockup-grid">
             <IDEMockup name="VS Code" eyebrow="SOURCE CONTROL" note="Demo path">
@@ -695,7 +695,7 @@ export function Presentation() {
           2. Open the new worktree in a second VS Code window.<br />
           3. Use Copilot Chat in that window as the agent lane.<br />
           4. Ask for a small focused change, such as tests or docs.<br />
-          5. Show the original window: its working files remain undisturbed.<br /><br />
+          5. Review the focused diff and show the original workspace stayed undisturbed.<br /><br />
           CLI fallback: git worktree add -b demo/agent-tests ../agent-tests main
         </aside>
       </Slide>
@@ -703,9 +703,9 @@ export function Presentation() {
       <Slide data-timing="45">
         <SlideFrame
           number={6}
-          eyebrow="THE AGENT ERA"
-          title="Three agent lanes worth trying."
-          lead="The best use cases have clear scope and easy review."
+          eyebrow="THE HIGH-ROI LANES"
+          title="Give agents jobs with obvious review boundaries."
+          lead="The fastest wins have narrow scope, useful output, and diffs a human can judge quickly."
         >
           <AgentLaneExamples />
         </SlideFrame>
@@ -722,8 +722,8 @@ export function Presentation() {
         <SlideFrame
           number={7}
           eyebrow="THE TAKEAWAY"
-          title={<>One repo.<br /><span className="title-accent">Multiple clean lanes.</span></>}
-          lead="The problem is not branching. It is one workspace trying to hold every feature, fix, experiment, and agent task."
+          title={<>Agentic work.<br /><span className="title-accent">Reviewable lanes.</span></>}
+          lead="Worktrees convert AI speed into engineering control: isolated prompts, focused diffs, and selective merges."
           className="closing-slide"
         >
           <CompactClosing />
