@@ -11,6 +11,7 @@ on:
       - codex/ver6-review-lab-worktrees
       - codex/ver7-agent-workflows
       - codex/ver8-concise-closing
+      - codex/ver9-agentic-ai
   workflow_dispatch:
 
 permissions:
@@ -74,6 +75,12 @@ jobs:
           ref: codex/ver8-concise-closing
           path: ver8-concise-closing
 
+      - name: Check out agentic AI presentation
+        uses: actions/checkout@v4
+        with:
+          ref: codex/ver9-agentic-ai
+          path: ver9-agentic-ai
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -88,6 +95,7 @@ jobs:
             ver6-review-lab-worktrees/package-lock.json
             ver7-agent-workflows/package-lock.json
             ver8-concise-closing/package-lock.json
+            ver9-agentic-ai/package-lock.json
 
       - name: Install main presentation dependencies
         run: npm ci
@@ -153,9 +161,17 @@ jobs:
         run: npm run build
         working-directory: ver8-concise-closing
 
+      - name: Install agentic AI presentation dependencies
+        run: npm ci
+        working-directory: ver9-agentic-ai
+
+      - name: Build agentic AI presentation
+        run: npm run build
+        working-directory: ver9-agentic-ai
+
       - name: Compose Pages site
         run: |
-          mkdir -p site/ver1 site/ver2 site/ver3 site/ver4 site/ver5 site/ver6 site/ver7 site/ver8 site/human-visual-refresh
+          mkdir -p site/ver1 site/ver2 site/ver3 site/ver4 site/ver5 site/ver6 site/ver7 site/ver8 site/ver9 site/human-visual-refresh
           cp -R main-deck/dist/. site/
           cp -R main-deck/dist/. site/ver1/
           cp -R human-visual-refresh/dist/. site/ver2/
@@ -165,6 +181,7 @@ jobs:
           cp -R ver6-review-lab-worktrees/dist/. site/ver6/
           cp -R ver7-agent-workflows/dist/. site/ver7/
           cp -R ver8-concise-closing/dist/. site/ver8/
+          cp -R ver9-agentic-ai/dist/. site/ver9/
           cp -R human-visual-refresh/dist/. site/human-visual-refresh/
 
       - name: Configure Pages
